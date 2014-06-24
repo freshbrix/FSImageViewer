@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name         = "FSImageViewer"
+  s.name         = "FSImageViewer_image_resize"
   s.version      = "2.5"
   s.summary      = "FSImageViewer is a photo viewer for iOS."
   s.homepage     = "https://github.com/x2on/FSImageViewer"
