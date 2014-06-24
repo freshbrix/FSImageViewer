@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
   s.author       = { "Felix Schulze" => "code@felixschulze.de" }
   s.source       = {
-    :git => "https://github.com/x2on/FSImageViewer.git",
+    :git => "https://github.com/sirajudheen53/FSImageViewer.git",
     :tag => s.version.to_s
   }
 
