@@ -24,6 +24,7 @@
 
 #import <EGOCache/EGOCache.h>
 #import "FSImageLoader.h"
+#import "UIImage+ResizeToAspectRatio.h"
 #import "AFHTTPRequestOperation.h"
 
 @implementation FSImageLoader {
@@ -96,6 +97,9 @@
 
         [imageRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
             UIImage *image = responseObject;
+            CGSize scalingSize = [image scalingSize];
+            image = [image scaleToMaxWidth:scalingSize.width
+                                 maxHeight:scalingSize.height];
             [[EGOCache globalCache] setImage:image forKey:cacheKey];
             if (imageBlock) {
                 imageBlock(image, nil);

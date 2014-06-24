@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		22A3865A1959723E0080A3AA /* UIImage+ResizeToAspectRatio.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A386591959723E0080A3AA /* UIImage+ResizeToAspectRatio.m */; };
 		5AB0DA258592480FB4099411 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 746D153768E9481F8194ECCE /* libPods.a */; };
 		69855A85F6C241808F6F609F /* libPods-FSImageViewerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4F4DB52EA04D489651AD23 /* libPods-FSImageViewerTests.a */; };
 		FD0FEFBB17D77F1C00470082 /* FSBasicImageSource.m in Sources */ = {isa = PBXBuildFile; fileRef = FD0FEFBA17D77F1C00470082 /* FSBasicImageSource.m */; };
@@ -73,6 +74,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		22A386581959723E0080A3AA /* UIImage+ResizeToAspectRatio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ResizeToAspectRatio.h"; sourceTree = "<group>"; };
+		22A386591959723E0080A3AA /* UIImage+ResizeToAspectRatio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ResizeToAspectRatio.m"; sourceTree = "<group>"; };
 		3E4F4DB52EA04D489651AD23 /* libPods-FSImageViewerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FSImageViewerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		589F82D818EDE791007F654A /* FSTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSTitleView.h; sourceTree = "<group>"; };
 		746D153768E9481F8194ECCE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -215,6 +218,8 @@
 		FD89E29517CB99D900A41D91 /* FSImageViewer */ = {
 			isa = PBXGroup;
 			children = (
+				22A386581959723E0080A3AA /* UIImage+ResizeToAspectRatio.h */,
+				22A386591959723E0080A3AA /* UIImage+ResizeToAspectRatio.m */,
 				FD0FEFBD17D781EF00470082 /* FSBasicImage.h */,
 				FD0FEFBE17D781EF00470082 /* FSBasicImage.m */,
 				FD0FEFB917D77F1C00470082 /* FSBasicImageSource.h */,
@@ -488,6 +493,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD89E2CA17CB9A0700A41D91 /* FSImageLoader.m in Sources */,
+				22A3865A1959723E0080A3AA /* UIImage+ResizeToAspectRatio.m in Sources */,
 				FD89E2CB17CB9A0700A41D91 /* FSImageScrollView.m in Sources */,
 				FD89E2CC17CB9A0700A41D91 /* FSImageTitleView.m in Sources */,
 				FD89E2CD17CB9A0700A41D91 /* FSImageView.m in Sources */,
