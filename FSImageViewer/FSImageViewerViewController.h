@@ -54,6 +54,9 @@
 /// Image data source
 @property(strong, nonatomic, readonly) id <FSImageSource> imageSource;
 
+//Update Image Source and Reload
+- (void)updateImageSourceWith:(id <FSImageSource>) aimageSource imageIndex:(NSInteger)imageIndex;
+
 /// Title
 @property(strong, nonatomic) UIView<FSTitleView>* titleView;
 

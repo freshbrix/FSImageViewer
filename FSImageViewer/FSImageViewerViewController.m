@@ -64,6 +64,22 @@
     return self;
 }
 
+- (void)updateImageSourceWith:(id <FSImageSource>) aimageSource imageIndex:(NSInteger)imageIndex {
+    _imageSource = aimageSource;
+    pageIndex = imageIndex;
+    currentPageIndex = imageIndex;
+    
+    //  load FSImageView lazy
+    NSMutableArray *views = [[NSMutableArray alloc] init];
+    for (NSUInteger i = 0; i < [_imageSource numberOfImages]; i++) {
+        [views addObject:[NSNull null]];
+    }
+    self.imageViews = views;
+    
+    [self setupScrollViewContentSize];
+    [self moveToImageAtIndex:pageIndex animated:NO];
+}
+
 - (void)dealloc {
     _scrollView.delegate = nil;
     [[FSImageLoader sharedInstance] cancelAllRequests];
