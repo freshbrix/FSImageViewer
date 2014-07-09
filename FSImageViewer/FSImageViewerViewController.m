@@ -36,6 +36,7 @@
     BOOL barsHidden;
     BOOL statusBarHidden;
     UIBarButtonItem *shareButton;
+    NSMutableArray *expiredImageViews;
 }
 
 - (id)initWithImageSource:(id <FSImageSource>)aImageSource {
@@ -49,11 +50,11 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageViewDidFinishLoading:) name:kFSImageViewerDidFinishedLoadingNotificationKey object:nil];
 
         self.hidesBottomBarWhenPushed = YES;
-        self.wantsFullScreenLayout = YES;
         
         self.backgroundColorHidden = [UIColor blackColor];
         self.backgroundColorVisible = [UIColor whiteColor];
 
+        expiredImageViews = [NSMutableArray array];
         _imageSource = aImageSource;
         pageIndex = imageIndex;
         currentPageIndex = imageIndex;
@@ -74,6 +75,19 @@
     for (NSUInteger i = 0; i < [_imageSource numberOfImages]; i++) {
         [views addObject:[NSNull null]];
     }
+
+    for (NSUInteger i = 0; i < [[self imageViews] count]; i++) {
+        FSImageView *imageView = [[self imageViews] objectAtIndex:i];
+        [[self imageViews] replaceObjectAtIndex:i withObject:[NSNull null]];
+        if ([imageView isKindOfClass:[FSImageView class]]) {
+            [expiredImageViews addObject:imageView];
+        }
+    }
+    
+    for (FSImageView *imageView in expiredImageViews) {
+        [imageView removeFromSuperview];
+    }
+    [expiredImageViews removeAllObjects];
     self.imageViews = views;
     
     [self setupScrollViewContentSize];

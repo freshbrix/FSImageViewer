@@ -6,7 +6,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = "FSImageViewer_image_resize"
-  s.version          = "1.0"
+  s.version          = "1.1"
   s.summary          = "Library added additonal functionality on FSImagViewer"
   s.description      = "Image resizing functionality is added on image download success of FSImageViewer"
   s.homepage     = "https://github.com/x2on/FSImageViewer"
