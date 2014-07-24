@@ -130,10 +130,13 @@
     
     for (CGFloat maxSize = textLabel.font.pointSize; maxSize >= textLabel.minimumScaleFactor * textLabel.font.pointSize; maxSize -= 1.f) {
         font = [font fontWithSize:maxSize];
+        NSDictionary *attributesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                              font, NSFontAttributeName, nil];
         CGSize constraintSize = CGSizeMake(size.width, MAXFLOAT);
-        CGSize labelSize = [textLabel.text sizeWithFont:font constrainedToSize:constraintSize lineBreakMode:textLabel.lineBreakMode];
-        
-        if(labelSize.height <= size.height) {
+        CGRect labelRect = [textLabel.text boundingRectWithSize:constraintSize
+                                                        options:NSStringDrawingTruncatesLastVisibleLine
+                                                     attributes:attributesDictionary context:nil];
+         if(labelRect.size.height <= size.height) {
             textLabel.font = font;
             [textLabel setNeedsLayout];
             break;
