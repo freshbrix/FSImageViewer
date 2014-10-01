@@ -101,10 +101,6 @@
 }
 
 - (void)didReceiveMemoryWarning {
-    self.imageViews = nil;
-    _scrollView.delegate = nil;
-    self.scrollView = nil;
-    self.titleView = nil;
 }
 
 - (void)viewDidLoad {
@@ -287,8 +283,6 @@
 
     [UIView animateWithDuration:0.3 animations:^{
         UIColor *backgroundColor = hidden ? _backgroundColorHidden : _backgroundColorVisible;
-        self.view.backgroundColor = backgroundColor;
-        self.scrollView.backgroundColor = backgroundColor;
         for (FSImageView *imageView in _imageViews) {
             if ([imageView isKindOfClass:[FSImageView class]]) {
                 [imageView changeBackgroundColor:backgroundColor];;
