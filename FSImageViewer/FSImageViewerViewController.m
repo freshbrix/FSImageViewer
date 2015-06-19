@@ -285,6 +285,7 @@
         UIColor *backgroundColor = hidden ? _backgroundColorHidden : _backgroundColorVisible;
         for (FSImageView *imageView in _imageViews) {
             if ([imageView isKindOfClass:[FSImageView class]]) {
+                [imageView setDetailsHidden:hidden];
                 [imageView changeBackgroundColor:backgroundColor];;
             }
         }
@@ -448,6 +449,7 @@
         if ([view isKindOfClass:[FSImageView class]]) {
             if (count > theIndex + 1 || count < theIndex - 1) {
                 [view prepareForReuse];
+                [view setDetailsHidden:barsHidden];
                 [view removeFromSuperview];
             } else {
                 view.tag = 0;
@@ -498,7 +500,7 @@
     }
 
     imageView.image = _imageSource[page];
-
+    [imageView setDetailsHidden:barsHidden];
     if (imageView.superview == nil) {
         [_scrollView addSubview:imageView];
     }

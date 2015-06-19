@@ -35,5 +35,11 @@
 @property(strong, nonatomic) UIImage *image;
 /// true if the image download failed.
 @property(assign, nonatomic, getter=didFail) BOOL failed;
+/// This string willshows as an overlay at bottom of image
+@property(strong, nonatomic) NSString *overlayString;
+/// Note on the image
+@property(strong, nonatomic) NSString *notes;
+/// True if the image is private
+@property(assign, nonatomic, getter=isPrivate) BOOL privateImage;
 
 @end

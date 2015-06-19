@@ -31,6 +31,9 @@
 @synthesize size = _size;
 @synthesize image = _image;
 @synthesize failed = _failed;
+@synthesize overlayString = _overlayString;
+@synthesize notes = _notes;
+@synthesize privateImage = _privateImage;
 
 - (id)initWithImageURL:(NSURL *)aURL name:(NSString *)aName image:(UIImage *)aImage {
     self = [super init];
@@ -38,7 +41,9 @@
         _URL = aURL;
         _title = aName;
         self.image = aImage;
-        
+        _privateImage =  NO;
+        _notes = @"";
+        _overlayString = @"";
     }
     return self;
 }

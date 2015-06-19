@@ -35,6 +35,15 @@
 @property(strong, nonatomic, readonly) UIImageView *imageView;
 @property(strong, nonatomic, readonly) FSImageScrollView *scrollView;
 @property(assign, nonatomic) BOOL loading;
+@property(assign, nonatomic) BOOL isHiddenDetails;
+//View elements for showing details
+@property(strong, nonatomic, readonly) UIView *overLayView;
+@property(strong, nonatomic, readonly) UILabel *overlayLabel;
+@property(strong, nonatomic, readonly) UIView *noteView;
+@property(strong, nonatomic, readonly) UIView *noteTextContainerView;
+@property(strong, nonatomic, readonly) UIView *noteVisibilityView;
+@property(strong, nonatomic, readonly) UITextView *noteTextView;
+@property(strong, nonatomic, readonly) UIButton *checkButton;
 
 - (void)killScrollViewZoom;
 
@@ -45,5 +54,8 @@
 - (void)changeBackgroundColor:(UIColor *)color;
 
 - (void)rotateToOrientation:(UIInterfaceOrientation)orientation;
+
+///Method to show/hide image details, such as note and overlay
+- (void)setDetailsHidden:(BOOL)hidden;
 
 @end
