@@ -29,6 +29,14 @@
 
 @class FSImageScrollView, FSImageTitleView;
 
+typedef enum : int {
+    
+    FSImageViewModeImageOnly,
+    FSImageViewModeImageAndTimeStamp,
+    FSImageViewModeTimeStampAndCaption,
+    FSImageViewModeAllDetails
+} FSImageViewMode;
+
 @interface FSImageView : UIView <UIScrollViewDelegate>
 
 @property(strong, nonatomic) id <FSImage> image;
@@ -37,9 +45,10 @@
 @property(assign, nonatomic) BOOL loading;
 @property(assign, nonatomic) BOOL isHiddenDetails;
 //View elements for showing details
+@property(assign, nonatomic) FSImageViewMode imageViewMode;
 @property(strong, nonatomic, readonly) UIView *overLayView;
 @property(strong, nonatomic, readonly) UILabel *overlayLabel;
-@property(strong, nonatomic, readonly) UIView *noteView;
+@property(strong, nonatomic, readonly) UIView *captionContainerView;
 @property(strong, nonatomic, readonly) UIView *noteTextContainerView;
 @property(strong, nonatomic, readonly) UIView *noteVisibilityView;
 @property(strong, nonatomic, readonly) UITextView *noteTextView;

@@ -33,9 +33,11 @@ static CGFloat const kNoteViewHeightMax = 100;
 static CGFloat const kNoteViewHeightMin = 70;
 static CGFloat const kCommonHeight = 30;
 static CGFloat const kPaddingMin = 5;
+static CGFloat const kSpacing = 3;
 static CGFloat const kFontSize = 13;
 static NSString *const kFontNormal = @"Arial";
 static NSString *const kFontBold = @"Arial-BoldMT";
+static NSString *const kFontItalic = @"Arial-BoldItalicMT";
 
 #define IS_IPAD UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad
 
@@ -91,16 +93,19 @@ static NSString *const kFontBold = @"Arial-BoldMT";
         labelFrame.size.width -= 2*kPaddingMin;
         UILabel *dateLabel = [[UILabel alloc] initWithFrame:labelFrame];
         dateLabel.textColor = [UIColor whiteColor];
-        dateLabel.font = [UIFont fontWithName:kFontBold size:kFontSize];
+        dateLabel.font = [UIFont fontWithName:kFontItalic size:kFontSize];
         [overlay addSubview:dateLabel];
         _overlayLabel = dateLabel;
         
         UIView *noteView = [[UIView alloc] initWithFrame:self.bounds];
         noteView.backgroundColor = [UIColor whiteColor];
-        _noteView = noteView;
+        _captionContainerView = noteView;
         
         UIView *noteTextContainerView = [[UIView alloc] initWithFrame:noteView.bounds];
         noteTextContainerView.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1];
+        noteTextContainerView.layer.borderWidth = 1;
+        noteTextContainerView.layer.cornerRadius = 2.0;
+        noteTextContainerView.layer.borderColor = [UIColor colorWithRed:152/255.0 green:152/255.0 blue:152/255.0 alpha:1].CGColor;
         _noteTextContainerView = noteTextContainerView;
         [noteView addSubview:noteTextContainerView];
         
@@ -133,8 +138,7 @@ static NSString *const kFontBold = @"Arial-BoldMT";
         [noteVissibilityView addSubview:descLabel];
         
         self.overLayView.hidden = YES;
-        self.noteView.hidden = YES;
-        
+        self.captionContainerView.hidden = YES;
         activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         activityView.frame = CGRectMake((CGRectGetWidth(self.frame) / 2) - 11.0f, CGRectGetHeight(self.frame) / 2, 22.0f, 22.0f);
         activityView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
@@ -253,26 +257,59 @@ static NSString *const kFontBold = @"Arial-BoldMT";
 - (void)updateImageDetails {
     
     self.overLayView.frame = CGRectMake(0, CGRectGetHeight(self.imageView.frame) - kCommonHeight, CGRectGetWidth(self.imageView.frame), kCommonHeight);
-    self.noteView.frame = CGRectMake(0, CGRectGetHeight(self.scrollView.frame), CGRectGetWidth(self.frame), [self noteViewHeight]);
-    self.noteTextContainerView.frame = CGRectMake(0, 0, CGRectGetWidth(self.noteView.frame), CGRectGetHeight(self.noteView.frame) - kCommonHeight);
-    self.noteTextView.frame = CGRectMake(0, 0, CGRectGetWidth(self.noteView.frame), [self noteViewHeight]/2);;
-    self.noteVisibilityView.frame = CGRectMake(0, CGRectGetHeight(self.noteView.frame) - kCommonHeight, CGRectGetWidth(self.noteView.frame), kCommonHeight);
-    ///Always show the option to make image private/public
-    [self.noteView setHidden:self.isHiddenDetails];
-    if ([_image.overlayString length]) {
-        [self.overLayView setHidden:NO];
-        [self.overlayLabel setText:_image.overlayString];
+    self.captionContainerView.frame = CGRectMake(0, CGRectGetHeight(self.scrollView.frame), CGRectGetWidth(self.frame), [self noteViewHeight]);
+    CGFloat noteViewHeight = ([_image isEditable])? CGRectGetHeight(self.captionContainerView.frame) - kCommonHeight : CGRectGetHeight(self.captionContainerView.frame);
+    self.noteTextContainerView.frame = CGRectMake(kSpacing, kSpacing, CGRectGetWidth(self.captionContainerView.frame) - 2*kSpacing, noteViewHeight - 2*kSpacing);
+    self.noteTextView.frame = CGRectMake(0, 0, CGRectGetWidth(self.captionContainerView.frame), CGRectGetHeight(self.noteTextContainerView.frame));
+    self.noteVisibilityView.frame = CGRectMake(0, CGRectGetHeight(self.captionContainerView.frame) - kCommonHeight, CGRectGetWidth(self.captionContainerView.frame), kCommonHeight);
+    [self.noteVisibilityView setHidden:![_image isEditable]];
+    [self.overlayLabel setText:_image.overlayString];
+    [self.noteTextView setText:_image.notes];
+    self.checkButton.selected = !_image.isPrivate;
+    [self updateViewsAccordingToViewMode];
+}
+
+- (void)updateViewsAccordingToViewMode {
+    
+    if (![self.image isImageHaveDetails]) {
+        self.imageViewMode = FSImageViewModeImageOnly;
+    }
+    if (!self.isHiddenDetails) {
+        switch (self.imageViewMode) {
+            case FSImageViewModeImageOnly:
+                [self.captionContainerView setHidden:YES];
+                [self.overLayView setHidden:YES];
+                break;
+            case FSImageViewModeImageAndTimeStamp:
+                [self.captionContainerView setHidden:YES];
+                [self.overLayView setHidden:NO];
+                break;
+            case FSImageViewModeTimeStampAndCaption:
+                [self.captionContainerView setHidden:NO];
+                [self.overLayView setHidden:NO];
+                [self.noteVisibilityView setHidden:YES];
+                break;
+            case FSImageViewModeAllDetails:
+                [self.captionContainerView setHidden:NO];
+                [self.overLayView setHidden:NO];
+                break;
+        }
+    }
+    if ([_image.overlayString length] == 0) {
+        [self.overLayView setHidden:YES];
+        
+    }
+    if ([_image.notes length] == 0)  {
+        [self.noteTextContainerView setHidden:YES];
+        self.noteVisibilityView.frame = CGRectMake(0, 0, CGRectGetWidth(self.captionContainerView.frame), kCommonHeight);
     } else {
+        [self.noteTextContainerView setHidden:NO];
+        self.noteVisibilityView.frame = CGRectMake(0, CGRectGetHeight(self.captionContainerView.frame) - kCommonHeight, CGRectGetWidth(self.captionContainerView.frame), kCommonHeight);
+    }
+    if (_loading) {
+        [self.captionContainerView setHidden:YES];
         [self.overLayView setHidden:YES];
     }
-    if ([_image.notes length]) {
-        [self.noteTextContainerView setHidden:NO];
-        [self.noteTextView setText:_image.notes];
-    } else {
-        [self.noteTextContainerView setHidden:YES];
-        self.noteVisibilityView.frame = CGRectMake(0, 0, CGRectGetWidth(self.noteView.frame), kCommonHeight);
-    }
-    self.checkButton.selected = !_image.isPrivate;
 }
 
 - (void)setupImageViewWithImage:(UIImage *)aImage {
@@ -307,7 +344,7 @@ static NSString *const kFontBold = @"Arial-BoldMT";
 - (void)setDetailsHidden:(BOOL)hidden {
     
     self.isHiddenDetails = hidden;
-    [self.noteView setHidden:hidden];
+    [self.captionContainerView setHidden:hidden];
     [self.overLayView setHidden:hidden];
     [self layoutScrollViewAnimated:NO];
 }
@@ -344,6 +381,11 @@ static NSString *const kFontBold = @"Arial-BoldMT";
             //Landscape
             height = kNoteViewHeightMin;
         }
+    }
+    if (_image && ![_image isEditable]) {
+        //If the image is not editable, visibility change view will
+        //be hidden.
+        height -= kCommonHeight;
     }
     return height;
 }
@@ -393,8 +435,10 @@ static NSString *const kFontBold = @"Arial-BoldMT";
     CGFloat leftOffset = (int) ((self.frame.size.width - newWidth) / 2);
     CGFloat topOffset = (int) ((self.frame.size.height - newHeight) / 2);
     CGFloat positionY = self.bounds.size.height / 2;
-    if (!self.isHiddenDetails) {
+    if (!self.isHiddenDetails && self.imageViewMode != FSImageViewModeImageOnly) {
         
+        //update the yposition to top if image is not viewing in full view or the
+        //view is image only
         CGFloat value = CGRectGetHeight(self.frame) - newHeight;
         CGFloat noteViewHeight = [self noteViewHeight];
         if (value < noteViewHeight) {

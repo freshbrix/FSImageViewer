@@ -34,6 +34,8 @@
 @synthesize overlayString = _overlayString;
 @synthesize notes = _notes;
 @synthesize privateImage = _privateImage;
+@synthesize imageId = _imageId;
+@synthesize editable = _editable;
 
 - (id)initWithImageURL:(NSURL *)aURL name:(NSString *)aName image:(UIImage *)aImage {
     self = [super init];
@@ -42,8 +44,10 @@
         _title = aName;
         self.image = aImage;
         _privateImage =  NO;
+        _editable = NO;
         _notes = @"";
         _overlayString = @"";
+        _imageId = @"";
     }
     return self;
 }
@@ -62,6 +66,11 @@
 
 - (id)initWithImage:(UIImage *)aImage name:(NSString *)aName {
     return [self initWithImageURL:nil name:aName image:aImage];
+}
+
+- (BOOL)isImageHaveDetails {
+    
+    return (_overlayString.length);
 }
 
 @end

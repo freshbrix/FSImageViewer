@@ -25,6 +25,7 @@
 #import "FSImageViewer.h"
 #import "FSImageSource.h"
 #import "FSTitleView.h"
+#import "FSImageView.h"
 
 @class FSImageViewerViewController;
 
@@ -38,6 +39,7 @@
 
 - (void)imageViewerViewController:(FSImageViewerViewController *)imageViewerViewController willDismissViewControllerAnimated:(BOOL)animated;
 - (void)imageViewerViewController:(FSImageViewerViewController *)imageViewerViewController didDismissViewControllerAnimated:(BOOL)animated;
+- (BOOL)canDismissViewController:(FSImageViewerViewController *)imageViewerViewController;
 
 @end
 
@@ -81,6 +83,8 @@
 /// Override the background color when overlay is visible - Default is white
 @property(strong, nonatomic) UIColor *backgroundColorVisible;
 
+@property(nonatomic) FSImageViewMode imageViewMode;
+
 /// Current index of the image displayed
 /// @return current index of the image displayed
 - (NSInteger)currentImageIndex;
@@ -89,5 +93,8 @@
 /// @param index index move to
 /// @param animated should the movevement animated
 - (void)moveToImageAtIndex:(NSInteger)index animated:(BOOL)animated;
+
+/// Method to dismiss viewcontroller
+- (void)dismissGallery;
 
 @end

@@ -41,5 +41,12 @@
 @property(strong, nonatomic) NSString *notes;
 /// True if the image is private
 @property(assign, nonatomic, getter=isPrivate) BOOL privateImage;
+/// A unique id of image
+@property(strong, nonatomic) NSString *imageId;
+/// True if the private/public status can edit
+@property(assign, nonatomic, getter=isEditable) BOOL editable;
+/// Method checks overlay string to decide details present or not
+- (BOOL)isImageHaveDetails;
+
 
 @end
