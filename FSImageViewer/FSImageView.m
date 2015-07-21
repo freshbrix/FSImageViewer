@@ -38,6 +38,10 @@ static CGFloat const kFontSize = 13;
 static NSString *const kFontNormal = @"Arial";
 static NSString *const kFontBold = @"Arial-BoldMT";
 static NSString *const kFontItalic = @"Arial-BoldItalicMT";
+static NSString *const kFontNormalItalic = @"Arial-ItalicMT";
+
+#define kDefaultTextColor [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1]
+#define kInActiveTextColor [UIColor colorWithRed:207/255.0 green:207/255.0 blue:207/255.0 alpha:1]
 
 #define IS_IPAD UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad
 
@@ -111,7 +115,7 @@ static NSString *const kFontItalic = @"Arial-BoldItalicMT";
         
         UITextView *noteText = [[UITextView alloc] initWithFrame:noteView.bounds];
         noteText.font = [UIFont fontWithName:kFontNormal size:kFontSize];
-        noteText.textColor = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1];
+        noteText.textColor = kDefaultTextColor;
         noteText.editable = NO;
         noteText.backgroundColor = [UIColor clearColor];
         [noteTextContainerView addSubview:noteText];
@@ -300,11 +304,21 @@ static NSString *const kFontItalic = @"Arial-BoldItalicMT";
         
     }
     if ([_image.notes length] == 0)  {
-        [self.noteTextContainerView setHidden:YES];
-        self.noteVisibilityView.frame = CGRectMake(0, 0, CGRectGetWidth(self.captionContainerView.frame), kCommonHeight);
+        self.noteTextView.font = [UIFont fontWithName:kFontNormalItalic size:kFontSize];
+        self.noteTextView.textColor = kInActiveTextColor;
+        self.noteTextView.text = @"Add a Caption";
+        //        [self.noteTextContainerView setHidden:YES];
+        //        self.noteVisibilityView.frame = CGRectMake(0, 0, CGRectGetWidth(self.captionContainerView.frame), kCommonHeight);
     } else {
-        [self.noteTextContainerView setHidden:NO];
-        self.noteVisibilityView.frame = CGRectMake(0, CGRectGetHeight(self.captionContainerView.frame) - kCommonHeight, CGRectGetWidth(self.captionContainerView.frame), kCommonHeight);
+        if ([_image.notes isEqualToString:@"Add a Caption"]) {
+            self.noteTextView.font = [UIFont fontWithName:kFontNormalItalic size:kFontSize];
+            self.noteTextView.textColor = kInActiveTextColor;
+        } else {
+            self.noteTextView.font = [UIFont fontWithName:kFontNormal size:kFontSize];
+            self.noteTextView.textColor = kDefaultTextColor;
+        }
+        //        [self.noteTextContainerView setHidden:NO];
+        //        self.noteVisibilityView.frame = CGRectMake(0, CGRectGetHeight(self.captionContainerView.frame) - kCommonHeight, CGRectGetWidth(self.captionContainerView.frame), kCommonHeight);
     }
     if (_loading) {
         [self.captionContainerView setHidden:YES];
