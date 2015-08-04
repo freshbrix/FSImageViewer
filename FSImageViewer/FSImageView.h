@@ -29,6 +29,8 @@
 
 @class FSImageScrollView, FSImageTitleView;
 
+typedef void(^GirdSelectedCallBack)(CGRect fromRect);
+
 typedef enum : int {
     
     FSImageViewModeImageOnly,
@@ -44,6 +46,7 @@ typedef enum : int {
 @property(strong, nonatomic, readonly) FSImageScrollView *scrollView;
 @property(assign, nonatomic) BOOL loading;
 @property(assign, nonatomic) BOOL isHiddenDetails;
+@property(strong, nonatomic) GirdSelectedCallBack gridSelectionCallBack;
 //View elements for showing details
 @property(assign, nonatomic) FSImageViewMode imageViewMode;
 @property(strong, nonatomic, readonly) UIView *overLayView;

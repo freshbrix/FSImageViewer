@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B3806111B708D860036F340 /* FSGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3806101B708D860036F340 /* FSGridCell.m */; };
 		22A3865A1959723E0080A3AA /* UIImage+ResizeToAspectRatio.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A386591959723E0080A3AA /* UIImage+ResizeToAspectRatio.m */; };
 		5AB0DA258592480FB4099411 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 746D153768E9481F8194ECCE /* libPods.a */; };
 		69855A85F6C241808F6F609F /* libPods-FSImageViewerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4F4DB52EA04D489651AD23 /* libPods-FSImageViewerTests.a */; };
@@ -75,6 +76,8 @@
 
 /* Begin PBXFileReference section */
 		0078CA47AEF56E2DBB3C6173 /* Pods-FSImageViewerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSImageViewerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FSImageViewerTests/Pods-FSImageViewerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		0B38060F1B708D860036F340 /* FSGridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSGridCell.h; sourceTree = "<group>"; };
+		0B3806101B708D860036F340 /* FSGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSGridCell.m; sourceTree = "<group>"; };
 		22A386581959723E0080A3AA /* UIImage+ResizeToAspectRatio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ResizeToAspectRatio.h"; sourceTree = "<group>"; };
 		22A386591959723E0080A3AA /* UIImage+ResizeToAspectRatio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ResizeToAspectRatio.m"; sourceTree = "<group>"; };
 		3E4F4DB52EA04D489651AD23 /* libPods-FSImageViewerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FSImageViewerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -230,6 +233,8 @@
 		FD89E29517CB99D900A41D91 /* FSImageViewer */ = {
 			isa = PBXGroup;
 			children = (
+				0B38060F1B708D860036F340 /* FSGridCell.h */,
+				0B3806101B708D860036F340 /* FSGridCell.m */,
 				22A386581959723E0080A3AA /* UIImage+ResizeToAspectRatio.h */,
 				22A386591959723E0080A3AA /* UIImage+ResizeToAspectRatio.m */,
 				FD0FEFBD17D781EF00470082 /* FSBasicImage.h */,
@@ -510,6 +515,7 @@
 				FD89E2CC17CB9A0700A41D91 /* FSImageTitleView.m in Sources */,
 				FD89E2CD17CB9A0700A41D91 /* FSImageView.m in Sources */,
 				FD89E2D217CB9A0E00A41D91 /* FSImageViewerViewController.m in Sources */,
+				0B3806111B708D860036F340 /* FSGridCell.m in Sources */,
 				FD89E2D317CB9A0E00A41D91 /* FSPlaceholderImages.m in Sources */,
 				FD0FEFBB17D77F1C00470082 /* FSBasicImageSource.m in Sources */,
 				FD0FEFBF17D781EF00470082 /* FSBasicImage.m in Sources */,

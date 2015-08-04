@@ -35,10 +35,12 @@ static CGFloat const kCommonHeight = 30;
 static CGFloat const kPaddingMin = 5;
 static CGFloat const kSpacing = 3;
 static CGFloat const kFontSize = 13;
+static CGFloat const kGridButtonWidth = 24;
 static NSString *const kFontNormal = @"Arial";
 static NSString *const kFontBold = @"Arial-BoldMT";
 static NSString *const kFontItalic = @"Arial-BoldItalicMT";
 static NSString *const kFontNormalItalic = @"Arial-ItalicMT";
+static NSString *const kGridIconName = @"grid_icon";
 
 #define kDefaultTextColor [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1]
 #define kInActiveTextColor [UIColor colorWithRed:207/255.0 green:207/255.0 blue:207/255.0 alpha:1]
@@ -100,6 +102,14 @@ static NSString *const kFontNormalItalic = @"Arial-ItalicMT";
         dateLabel.font = [UIFont fontWithName:kFontItalic size:kFontSize];
         [overlay addSubview:dateLabel];
         _overlayLabel = dateLabel;
+        
+        CGFloat buttonY = (CGRectGetHeight(overlay.bounds) - (kGridButtonWidth))/2;
+        CGFloat buttonX = CGRectGetWidth(overlay.bounds) - kGridButtonWidth - kPaddingMin;
+        CGRect buttonFrame = CGRectMake(buttonX, buttonY, kGridButtonWidth, kGridButtonWidth);
+        UIButton *gridIcon = [[UIButton alloc] initWithFrame:buttonFrame];
+        [gridIcon setImage:[UIImage imageNamed:kGridIconName] forState:UIControlStateNormal];
+        [gridIcon addTarget:self action:@selector(girdButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [overlay addSubview:gridIcon];
         
         UIView *noteView = [[UIView alloc] initWithFrame:self.bounds];
         noteView.backgroundColor = [UIColor whiteColor];
@@ -404,9 +414,20 @@ static NSString *const kFontNormalItalic = @"Arial-ItalicMT";
     return height;
 }
 
+#pragma mark - Action Methods
+
 - (IBAction)checkAction:(UIButton *)sender {
     sender.selected = !sender.selected;
     _image.privateImage = !sender.selected;
+}
+
+- (IBAction)girdButtonClicked:(UIButton *)sender {
+    
+    CGRect frame = [self convertRect:sender.frame fromView:self.overLayView];
+    if (self.gridSelectionCallBack) {
+        
+        self.gridSelectionCallBack (frame);
+    }
 }
 
 #pragma mark - Layout

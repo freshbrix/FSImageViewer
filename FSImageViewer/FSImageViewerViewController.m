@@ -24,6 +24,11 @@
 
 #import "FSImageViewerViewController.h"
 #import "FSImageTitleView.h"
+#import "FSGridCell.h"
+
+static NSString *const kGridCellID = @"FSGridCell";
+
+#define IS_IPAD UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad
 
 @interface FSImageViewerViewController ()
 
@@ -92,6 +97,7 @@
     
     [self setupScrollViewContentSize];
     [self moveToImageAtIndex:pageIndex animated:NO];
+    [_gridCollectionView reloadData];
 }
 
 - (void)dealloc {
@@ -134,7 +140,7 @@
     if (!_titleView) {
         [self setTitleView:[[FSImageTitleView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 1)]];
     }
-    
+    [self setUpGridCollectionView];
     //  load FSImageView lazy
     NSMutableArray *views = [[NSMutableArray alloc] init];
     for (NSUInteger i = 0; i < [_imageSource numberOfImages]; i++) {
@@ -185,7 +191,6 @@
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     rotating = YES;
-    
     if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
         CGRect rect = [[UIScreen mainScreen] bounds];
         _scrollView.contentSize = CGSizeMake(rect.size.height * [_imageSource numberOfImages], rect.size.width);
@@ -203,6 +208,8 @@
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    
+    [self adjustCollectionFrame];
     for (FSImageView *view in _imageViews) {
         if ([view isKindOfClass:[FSImageView class]]) {
             [view rotateToOrientation:toInterfaceOrientation];
@@ -311,6 +318,32 @@
     [self setBarsHidden:!barsHidden animated:YES];
 }
 
+#pragma mark - Collection View
+
+- (void)setUpGridCollectionView {
+    
+    if (!_gridCollectionView) {
+        
+        UICollectionViewFlowLayout *layout=[[UICollectionViewFlowLayout alloc] init];
+        layout.sectionInset = UIEdgeInsetsMake(5, 5, 0, 5);
+        _gridCollectionView=[[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
+        
+        [_gridCollectionView setDataSource:self];
+        [_gridCollectionView setDelegate:self];
+        
+        [_gridCollectionView registerClass:[FSGridCell class] forCellWithReuseIdentifier:kGridCellID];
+        [_gridCollectionView setBackgroundColor:[UIColor whiteColor]];
+        [self.view addSubview:_gridCollectionView];
+        [_gridCollectionView setHidden:YES];
+    }
+}
+
+- (void)adjustCollectionFrame {
+    
+    _gridCollectionView.frame = self.view.bounds;
+    [_gridCollectionView reloadData];
+}
+
 #pragma mark - Image View
 
 - (void)imageViewDidFinishLoading:(NSNotification *)notification {
@@ -353,10 +386,14 @@
     
     if(_showNumberOfItemsInTitle) {
         NSInteger numberOfImages = [_imageSource numberOfImages];
-        if (numberOfImages > 1) {
-            self.navigationItem.title = [NSString stringWithFormat:@"%i %@ %li", (int)pageIndex + 1, [self localizedStringForKey:@"imageCounter" withDefault:@"of"], (long)numberOfImages];
+        if ([_gridCollectionView isHidden]) {
+            if (numberOfImages > 1) {
+                self.navigationItem.title = [NSString stringWithFormat:@"%i %@ %li", (int)pageIndex + 1, [self localizedStringForKey:@"imageCounter" withDefault:@"of"], (long)numberOfImages];
+            } else {
+                self.title = @"";
+            }
         } else {
-            self.title = @"";
+            self.navigationItem.title = @"Gallery";
         }
     }
     
@@ -506,6 +543,11 @@
     if (imageView == nil || (NSNull *) imageView == [NSNull null]) {
         imageView = [[FSImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, _scrollView.bounds.size.width, _scrollView.bounds.size.height)];
         imageView.imageViewMode = self.imageViewMode;
+        __weak typeof(self)weakSelf = self;
+        imageView.gridSelectionCallBack = ^(CGRect fromRect) {
+            
+            [weakSelf gallerySelected:fromRect];
+        };
         UIColor *backgroundColor = barsHidden ? _backgroundColorHidden : _backgroundColorVisible;
         [imageView changeBackgroundColor:backgroundColor];
         [_imageViews replaceObjectAtIndex:(NSUInteger) page withObject:imageView];
@@ -586,6 +628,74 @@
     }
     defaultString = [bundle localizedStringForKey:key value:defaultString table:nil];
     return [[NSBundle mainBundle] localizedStringForKey:key value:defaultString table:nil];
+}
+
+#pragma mark - CallBack
+
+- (void)gallerySelected:(CGRect)fromRect {
+    
+    CGRect bouds = self.view.bounds;
+    bouds.origin.y = bouds.size.height;
+    _gridCollectionView.frame = bouds;
+    [_gridCollectionView setHidden:NO];
+    _gridCollectionView.alpha = 0;
+    [UIView animateWithDuration:0.3 animations:^{
+        _gridCollectionView.alpha = 1.0;
+        _gridCollectionView.frame = self.view.bounds;
+        
+    }completion:^(BOOL finished) {
+        
+    }];
+    
+    [_gridCollectionView reloadData];
+    [self setViewState];
+}
+
+#pragma mark - CollectionView Datasource/Delegate Methods
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return [_imageSource numberOfImages];
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    FSGridCell *cell = (FSGridCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kGridCellID forIndexPath:indexPath];
+    
+    cell.backgroundColor = [UIColor whiteColor];
+    id<FSImage> currentImage = _imageSource[indexPath.row];
+    cell.imageURL = currentImage.URL;
+    return cell;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGSize size;
+    if (IS_IPAD) {
+        size = CGSizeMake(140, 140);
+    } else {
+        size = CGSizeMake(70, 70);
+    }
+    return size;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return 5.0;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        CGRect bouds = self.view.bounds;
+        bouds.origin.y = bouds.size.height;
+        _gridCollectionView.frame = bouds;
+        
+    }completion:^(BOOL finished) {
+        [_gridCollectionView setHidden:YES];
+        [self setViewState];
+    }];
+    
+    [self moveToImageAtIndex:indexPath.row animated:NO];
 }
 
 @end
