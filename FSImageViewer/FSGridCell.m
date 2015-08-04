@@ -12,6 +12,11 @@
 
 #define MB_FILE_SIZE 1024*1024
 
+@interface FSGridCell ()
+
+@property (nonatomic, assign) NSInteger inProgressRequestCount;
+
+@end
 
 @implementation FSGridCell
 
@@ -39,9 +44,17 @@
     }
 }
 
+- (void)prepareForReuse {
+    
+    _imageView.image = nil;
+}
+
 - (void)setImageURL:(NSURL *)imageURL {
     
+    _inProgressRequestCount += 1;
+    _imageView.image = nil;
     _imageURL = imageURL;
+    __weak typeof(_imageView)weakImageView = _imageView;
     if ([imageURL isFileURL]) {
         
         NSError *error = nil;
@@ -55,15 +68,15 @@
                 UIImage *image = nil;
                 NSData *data = [NSData dataWithContentsOfURL:imageURL];
                 if (!data) {
-                    _imageView.image = FSImageViewerErrorPlaceholderImage;
+                    weakImageView.image = FSImageViewerErrorPlaceholderImage;
                 } else {
                     image = [UIImage imageWithData:data];
                 }
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    
-                    if (image != nil) {
-                        _imageView.image = image;
+                    _inProgressRequestCount -= 1;
+                    if (image != nil && _inProgressRequestCount == 0) {
+                        weakImageView.image = image;
                     }
                     
                 });
@@ -71,17 +84,29 @@
             
         }
         else {
-            self.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:imageURL]];
+            _inProgressRequestCount -= 1;
+            if (_inProgressRequestCount == 0) {
+                weakImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:imageURL]];
+            }
         }
         
     }
     else {
         [[FSImageLoader sharedInstance] loadImageForURL:imageURL image:^(UIImage *image, NSError *error) {
-            if (!error) {
-                _imageView.image = image;
-            }
-            else {
-                _imageView.image = FSImageViewerErrorPlaceholderImage;            }
+            _inProgressRequestCount -= 1;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                if (_inProgressRequestCount == 0) {
+                    if (!error) {
+                        weakImageView.image = image;
+                    }
+                    else {
+                        weakImageView.image = FSImageViewerErrorPlaceholderImage;
+                    }
+                }
+                
+            });
+            
         }];
     }
 }
