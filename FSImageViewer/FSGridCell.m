@@ -9,14 +9,11 @@
 #import "FSGridCell.h"
 #import "FSImageLoader.h"
 #import "FSImageViewer.h"
+#import "UIImageView+AFNetworking.h"
 
 #define MB_FILE_SIZE 1024*1024
 
-@interface FSGridCell ()
-
-@property (nonatomic, assign) NSInteger inProgressRequestCount;
-
-@end
+static NSString *const kPlaceholderImageName = @"repair_placeholder";
 
 @implementation FSGridCell
 
@@ -44,17 +41,9 @@
     }
 }
 
-- (void)prepareForReuse {
-    
-    _imageView.image = nil;
-}
-
 - (void)setImageURL:(NSURL *)imageURL {
     
-    _inProgressRequestCount += 1;
-    _imageView.image = nil;
     _imageURL = imageURL;
-    __weak typeof(_imageView)weakImageView = _imageView;
     if ([imageURL isFileURL]) {
         
         NSError *error = nil;
@@ -68,15 +57,15 @@
                 UIImage *image = nil;
                 NSData *data = [NSData dataWithContentsOfURL:imageURL];
                 if (!data) {
-                    weakImageView.image = FSImageViewerErrorPlaceholderImage;
+                    _imageView.image = FSImageViewerErrorPlaceholderImage;
                 } else {
                     image = [UIImage imageWithData:data];
                 }
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    _inProgressRequestCount -= 1;
-                    if (image != nil && _inProgressRequestCount == 0) {
-                        weakImageView.image = image;
+                    
+                    if (image != nil) {
+                        _imageView.image = image;
                     }
                     
                 });
@@ -84,30 +73,12 @@
             
         }
         else {
-            _inProgressRequestCount -= 1;
-            if (_inProgressRequestCount == 0) {
-                weakImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:imageURL]];
-            }
+            self.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:imageURL]];
         }
         
     }
     else {
-        [[FSImageLoader sharedInstance] loadImageForURL:imageURL image:^(UIImage *image, NSError *error) {
-            _inProgressRequestCount -= 1;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                if (_inProgressRequestCount == 0) {
-                    if (!error) {
-                        weakImageView.image = image;
-                    }
-                    else {
-                        weakImageView.image = FSImageViewerErrorPlaceholderImage;
-                    }
-                }
-                
-            });
-            
-        }];
+        [_imageView setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:kPlaceholderImageName]];
     }
 }
 
