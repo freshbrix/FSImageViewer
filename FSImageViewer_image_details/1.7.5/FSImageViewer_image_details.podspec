@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "FSImageViewer_image_details"
-  s.version          = "1.7.4"
+  s.version          = "1.7.5"
   s.summary          = "Library added additonal functionality on FSImagViewer."
   s.description      = "Added details of image such as a note, date overlay and option to mark image private or public."
   s.homepage         = "https://github.com/akhilrajtr/FSImageViewer"
