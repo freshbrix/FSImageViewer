@@ -56,6 +56,7 @@ typedef enum : int {
 @property(strong, nonatomic, readonly) UIView *noteVisibilityView;
 @property(strong, nonatomic, readonly) UITextView *noteTextView;
 @property(strong, nonatomic, readonly) UIButton *checkButton;
+@property(strong, nonatomic, readonly) UIButton *gridButton;
 
 - (void)killScrollViewZoom;
 
