@@ -93,7 +93,7 @@ static NSString *const kGridIconName = @"grid_icon";
         UIView *overlay = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(imageView.frame) - kCommonHeight, CGRectGetWidth(imageView.frame), kCommonHeight)];
         overlay.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3];
         _overLayView = overlay;
-        [_scrollView addSubview:overlay];
+        [self addSubview:overlay];
         
         CGRect labelFrame = overlay.bounds;
         labelFrame.origin.x = kPaddingMin;
@@ -272,7 +272,7 @@ static NSString *const kGridIconName = @"grid_icon";
 /// method to update the frame of image details elements
 - (void)updateImageDetails {
     
-    self.overLayView.frame = CGRectMake(0, CGRectGetHeight(self.imageView.frame) - kCommonHeight, CGRectGetWidth(self.imageView.frame), kCommonHeight);
+    self.overLayView.frame = CGRectMake(0, CGRectGetHeight(self.imageView.frame) - kCommonHeight, CGRectGetWidth(self.frame), kCommonHeight);
     self.captionContainerView.frame = CGRectMake(0, CGRectGetHeight(self.scrollView.frame), CGRectGetWidth(self.frame), [self noteViewHeight]);
     CGFloat noteViewHeight = ([_image isEditable])? CGRectGetHeight(self.captionContainerView.frame) - kCommonHeight : CGRectGetHeight(self.captionContainerView.frame);
     self.noteTextContainerView.frame = CGRectMake(kSpacing, kSpacing, CGRectGetWidth(self.captionContainerView.frame) - 2*kSpacing, noteViewHeight - 2*kSpacing);
