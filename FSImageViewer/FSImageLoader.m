@@ -46,7 +46,7 @@
         self.timeoutInterval = 30.0;
         runningRequests = [[NSMutableArray alloc] init];
     }
-
+    
     return self;
 }
 
@@ -70,17 +70,17 @@
 }
 
 - (void)loadImageForURL:(NSURL *)aURL image:(void (^)(UIImage *image, NSError *error))imageBlock {
-
+    
     if (!aURL) {
         NSError *error = [NSError errorWithDomain:@"de.felixschulze.fsimageloader" code:412 userInfo:@{
-                NSLocalizedDescriptionKey : @"You must set a url"
-        }];
+                                                                                                       NSLocalizedDescriptionKey : @"You must set a url"
+                                                                                                       }];
         imageBlock(nil, error);
     };
     NSString *cacheKey = [NSString stringWithFormat:@"FSImageLoader-%lu", (unsigned long)[[aURL description] hash]];
-
+    
     UIImage *anImage = [[EGOCache globalCache] imageForKey:cacheKey];
-
+    
     if (anImage) {
         if (imageBlock) {
             imageBlock(anImage, nil);
@@ -92,7 +92,7 @@
         imageRequestOperation.responseSerializer = [AFImageResponseSerializer serializer];
         [runningRequests addObject:imageRequestOperation];
         __weak AFHTTPRequestOperation *imageRequestOperationForBlock = imageRequestOperation;
-
+        
         [imageRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
             UIImage *image = responseObject;
             CGSize scalingSize = [image scalingSize];
@@ -106,6 +106,50 @@
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             if (imageBlock) {
                 imageBlock(nil, error);
+            }
+            [runningRequests removeObject:imageRequestOperationForBlock];
+        }];
+        [imageRequestOperation start];
+    }
+}
+
+- (void)loadImageForURL:(NSURL *)aURL completed:(void (^)(UIImage *image, NSURL *URL,NSError *error))imageBlock {
+    
+    if (!aURL) {
+        NSError *error = [NSError errorWithDomain:@"de.felixschulze.fsimageloader" code:412 userInfo:@{
+                                                                                                       NSLocalizedDescriptionKey : @"You must set a url"
+                                                                                                       }];
+        imageBlock(nil, aURL, error);
+    };
+    NSString *cacheKey = [NSString stringWithFormat:@"FSImageLoader-%lu", (unsigned long)[[aURL description] hash]];
+    
+    UIImage *anImage = [[EGOCache globalCache] imageForKey:cacheKey];
+    
+    if (anImage) {
+        if (imageBlock) {
+            imageBlock(anImage, aURL, nil);
+        }
+    }
+    else {
+        NSURLRequest *urlRequest = [[NSURLRequest alloc] initWithURL:aURL cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:_timeoutInterval];
+        AFHTTPRequestOperation *imageRequestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:urlRequest];
+        imageRequestOperation.responseSerializer = [AFImageResponseSerializer serializer];
+        [runningRequests addObject:imageRequestOperation];
+        __weak AFHTTPRequestOperation *imageRequestOperationForBlock = imageRequestOperation;
+        
+        [imageRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+            UIImage *image = responseObject;
+            CGSize scalingSize = [image scalingSize];
+            image = [image scaleToMaxWidth:scalingSize.width
+                                 maxHeight:scalingSize.height];
+            [[EGOCache globalCache] setImage:image forKey:cacheKey];
+            if (imageBlock) {
+                imageBlock(image, aURL, nil);
+            }
+            [runningRequests removeObject:imageRequestOperationForBlock];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            if (imageBlock) {
+                imageBlock(nil, aURL, error);
             }
             [runningRequests removeObject:imageRequestOperationForBlock];
         }];

@@ -10,10 +10,16 @@
 #import "FSImageLoader.h"
 #import "FSImageViewer.h"
 #import "UIImageView+AFNetworking.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 #define MB_FILE_SIZE 1024*1024
 
 static NSString *const kPlaceholderImageName = @"repair_placeholder";
+
+@interface FSGridCell()
+
+
+@end
 
 @implementation FSGridCell
 
@@ -32,6 +38,11 @@ static NSString *const kPlaceholderImageName = @"repair_placeholder";
     return self;
 }
 
+- (void)prepareForReuse {
+    
+    _imageView.image = [UIImage imageNamed:kPlaceholderImageName];
+}
+
 - (void)awakeFromNib {
     // Initialization code
     if (!_imageView) {
@@ -41,45 +52,28 @@ static NSString *const kPlaceholderImageName = @"repair_placeholder";
     }
 }
 
+- (void)setImage:(id<FSImage>)image {
+    
+    if (image.URL) {
+        self.imageURL = image.URL;
+    } else if (image.image) {
+        self.imageView.image = image.image;
+    } else {
+        _imageView.image = [UIImage imageNamed:kPlaceholderImageName];
+        
+    }
+}
+
 - (void)setImageURL:(NSURL *)imageURL {
     
     _imageURL = imageURL;
-    if ([imageURL isFileURL]) {
-        
-        NSError *error = nil;
-        NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[imageURL path] error:&error];
-        NSInteger fileSize = [[attributes objectForKey:NSFileSize] integerValue];
-        
-        if (fileSize >= MB_FILE_SIZE) {
-            
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-                
-                UIImage *image = nil;
-                NSData *data = [NSData dataWithContentsOfURL:imageURL];
-                if (!data) {
-                    _imageView.image = FSImageViewerErrorPlaceholderImage;
-                } else {
-                    image = [UIImage imageWithData:data];
-                }
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    
-                    if (image != nil) {
-                        _imageView.image = image;
-                    }
-                    
-                });
-            });
-            
+    __weak typeof(self)weakSelf = self;
+    [_imageView sd_setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:kPlaceholderImageName] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        if (error) {
+            [weakSelf.imageView setImage:FSImageViewerErrorPlaceholderImage];
         }
-        else {
-            self.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:imageURL]];
-        }
-        
-    }
-    else {
-        [_imageView setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:kPlaceholderImageName]];
-    }
+    }];
+    
 }
 
 @end

@@ -45,4 +45,6 @@
 /// @param url remote image url
 - (void)cancelRequestForUrl:(NSURL *)url;
 
+- (void)loadImageForURL:(NSURL *)aURL completed:(void (^)(UIImage *image, NSURL *URL,NSError *error))imageBlock;
+
 @end

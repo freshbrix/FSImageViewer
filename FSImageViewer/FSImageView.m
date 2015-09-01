@@ -25,6 +25,7 @@
 #import "FSImageView.h"
 #import "FSPlaceholderImages.h"
 #import "FSImageScrollView.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 #define ZOOM_VIEW_TAG 0x101
 #define MB_FILE_SIZE 1024*1024
@@ -35,7 +36,7 @@ static CGFloat const kCommonHeight = 30;
 static CGFloat const kPaddingMin = 5;
 static CGFloat const kSpacing = 3;
 static CGFloat const kFontSize = 13;
-static CGFloat const kGridButtonWidth = 47;
+static CGFloat const kGridButtonWidth = 60;
 static CGFloat const kGridButtonHeight = 40;
 static NSString *const kFontNormal = @"Arial";
 static NSString *const kFontBold = @"Arial-BoldMT";
@@ -153,6 +154,12 @@ static NSString *const kGridIconName = @"grid_icon";
         descLabel.font = [UIFont fontWithName:kFontBold size:kFontSize];
         [noteVissibilityView addSubview:descLabel];
         
+        UIButton *clickButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, CGRectGetHeight(noteVissibilityView.frame))];
+        [clickButton setBackgroundColor:[UIColor clearColor]];
+        [clickButton addTarget:self action:@selector(checkAction:) forControlEvents:UIControlEventTouchUpInside];
+        _noteClickButton = clickButton;
+        [noteVissibilityView addSubview:clickButton];
+        
         self.overLayView.hidden = YES;
         self.captionContainerView.hidden = YES;
         activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -202,51 +209,59 @@ static NSString *const kGridIconName = @"grid_icon";
         
     }
     else {
-        
-        if ([_image.URL isFileURL]) {
-            
-            NSError *error = nil;
-            NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[_image.URL path] error:&error];
-            NSInteger fileSize = [[attributes objectForKey:NSFileSize] integerValue];
-            
-            if (fileSize >= MB_FILE_SIZE) {
-                
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-                    
-                    UIImage *image = nil;
-                    NSData *data = [NSData dataWithContentsOfURL:self.image.URL];
-                    if (!data) {
-                        [self handleFailedImage];
-                    } else {
-                        image = [UIImage imageWithData:data];
-                    }
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        
-                        if (image != nil) {
-                            [self setupImageViewWithImage:image];
-                        }
-                        
-                    });
-                });
-                
+        [_imageView sd_setImageWithURL:_image.URL placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            if (!error) {
+                _image.image = image;
+                [self setupImageViewWithImage:image];
             }
             else {
-                self.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:self.image.URL]];
+                [self handleFailedImage];
             }
-            
-        }
-        else {
-            [[FSImageLoader sharedInstance] loadImageForURL:_image.URL image:^(UIImage *image, NSError *error) {
-                if (!error) {
-                    _image.image = image;
-                    [self setupImageViewWithImage:image];
-                }
-                else {
-                    [self handleFailedImage];
-                }
-            }];
-        }
+        }];
+        //        if ([_image.URL isFileURL]) {
+        //
+        //            NSError *error = nil;
+        //            NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[_image.URL path] error:&error];
+        //            NSInteger fileSize = [[attributes objectForKey:NSFileSize] integerValue];
+        //
+        //            if (fileSize >= MB_FILE_SIZE) {
+        //
+        //                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        //
+        //                    UIImage *image = nil;
+        //                    NSData *data = [NSData dataWithContentsOfURL:self.image.URL];
+        //                    if (!data) {
+        //                        [self handleFailedImage];
+        //                    } else {
+        //                        image = [UIImage imageWithData:data];
+        //                    }
+        //
+        //                    dispatch_async(dispatch_get_main_queue(), ^{
+        //
+        //                        if (image != nil) {
+        //                            [self setupImageViewWithImage:image];
+        //                        }
+        //
+        //                    });
+        //                });
+        //
+        //            }
+        //            else {
+        //                self.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:self.image.URL]];
+        //            }
+        //
+        //        }
+        //        else {
+        //            [[FSImageLoader sharedInstance] loadImageForURL:_image.URL image:^(UIImage *image, NSError *error) {
+        //                if (!error) {
+        //                    _image.image = image;
+        //                    [self setupImageViewWithImage:image];
+        //                }
+        //                else {
+        //                    [self handleFailedImage];
+        //                }
+        //            }];
+        //        }
         
     }
     
@@ -282,6 +297,7 @@ static NSString *const kGridIconName = @"grid_icon";
     CGFloat buttonX = CGRectGetWidth(_overLayView.bounds) - kGridButtonWidth;
     CGRect buttonFrame = CGRectMake(buttonX, buttonY, kGridButtonWidth, kGridButtonHeight);
     self.gridButton.frame = buttonFrame;
+    [self bringSubviewToFront:self.captionContainerView];
     [self.noteVisibilityView setHidden:![_image isEditable]];
     [self.overlayLabel setText:_image.overlayString];
     [self.noteTextView setText:_image.notes];
@@ -292,7 +308,7 @@ static NSString *const kGridIconName = @"grid_icon";
 - (void)updateViewsAccordingToViewMode {
     
     if (![self.image isImageHaveDetails]) {
-        self.imageViewMode = FSImageViewModeImageOnly;
+        self.imageViewMode = FSImageViewModeImageAndTimeStamp;
     }
     if (!self.isHiddenDetails) {
         switch (self.imageViewMode) {
@@ -315,10 +331,10 @@ static NSString *const kGridIconName = @"grid_icon";
                 break;
         }
     }
-    if ([_image.overlayString length] == 0) {
-        [self.overLayView setHidden:YES];
-        
-    }
+    //    if ([_image.overlayString length] == 0) {
+    //        [self.overLayView setHidden:YES];
+    //
+    //    }
     if ([_image.notes length] == 0)  {
         self.noteTextView.font = [UIFont fontWithName:kFontNormalItalic size:kFontSize];
         self.noteTextView.textColor = kInActiveTextColor;
@@ -423,8 +439,8 @@ static NSString *const kGridIconName = @"grid_icon";
 #pragma mark - Action Methods
 
 - (IBAction)checkAction:(UIButton *)sender {
-    sender.selected = !sender.selected;
-    _image.privateImage = !sender.selected;
+    self.checkButton.selected = !self.checkButton.selected;
+    _image.privateImage = !self.checkButton.selected;
 }
 
 - (IBAction)girdButtonClicked:(UIButton *)sender {
@@ -457,9 +473,10 @@ static NSString *const kGridIconName = @"grid_icon";
 - (void)layoutScrollViewAnimated:(BOOL)animated {
     
     if (!_imageView.image) {
+        [self.overLayView setHidden:YES];
         return;
     }
-    
+    //    [self.overLayView setHidden:NO];
     if (animated) {
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationDuration:0.0010];

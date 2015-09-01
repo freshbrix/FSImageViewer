@@ -155,7 +155,7 @@ static NSString *const kGridCellID = @"FSGridCell";
     }
     _titleView = titleView;
     if (_titleView) {
-        [self.view addSubview:_titleView];
+        //        [self.view addSubview:_titleView];
     }
 }
 
@@ -664,7 +664,7 @@ static NSString *const kGridCellID = @"FSGridCell";
     
     cell.backgroundColor = [UIColor whiteColor];
     id<FSImage> currentImage = _imageSource[indexPath.row];
-    cell.imageURL = currentImage.URL;
+    cell.image = currentImage;
     return cell;
 }
 
@@ -674,13 +674,29 @@ static NSString *const kGridCellID = @"FSGridCell";
     if (IS_IPAD) {
         size = CGSizeMake(140, 140);
     } else {
-        size = CGSizeMake(70, 70);
+        size = CGSizeMake(75, 72);
+    }
+    return size;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+    CGFloat size;
+    if (IS_IPAD) {
+        size = 6;
+    } else {
+        size = 2;
     }
     return size;
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    return 5.0;
+    CGFloat size;
+    if (IS_IPAD) {
+        size = 6;
+    } else {
+        size = 3;
+    }
+    return size;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
