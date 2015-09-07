@@ -1,7 +1,7 @@
 platform :ios, '6.0'
 inhibit_all_warnings!
 
-pod 'AFNetworking', '~> 2.3'
+pod 'AFNetworking', '~> 2.3.0'
 pod 'EGOCache', '~> 2.0'
 pod 'SDWebImage', '~> 3.7'
 
