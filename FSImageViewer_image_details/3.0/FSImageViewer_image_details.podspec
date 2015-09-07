@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "FSImageViewer_image_details"
-  s.version          = "1.9"
+  s.version          = "3.0"
   s.summary          = "Library added additonal functionality on FSImagViewer."
   s.description      = "Added details of image such as a note, date overlay and option to mark image private or public."
   s.homepage         = "https://github.com/akhilrajtr/FSImageViewer"
@@ -30,4 +30,5 @@ Pod::Spec.new do |s|
   # s.frameworks = 'UIKit', 'MapKit'
   s.dependency 'AFNetworking', '~> 2.3'
   s.dependency 'EGOCache', '~> 2.0'
+  s.dependency 'SDWebImage', '~> 3.7'
 end

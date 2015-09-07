@@ -9,7 +9,6 @@
 #import "FSGridCell.h"
 #import "FSImageLoader.h"
 #import "FSImageViewer.h"
-#import "UIImageView+AFNetworking.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
 #define MB_FILE_SIZE 1024*1024
