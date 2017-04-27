@@ -1,27 +1,25 @@
-# FSImageViewer_image_resize
+# FSImageViewer_GridView
 
-[![Version](https://img.shields.io/cocoapods/v/FSImageViewer_image_resize.svg?style=flat)](http://cocoadocs.org/docsets/FSImageViewer_image_details)
-[![License](https://img.shields.io/cocoapods/l/FSImageViewer_image_resize.svg?style=flat)](http://cocoadocs.org/docsets/FSImageViewer_image_details)
-[![Platform](https://img.shields.io/cocoapods/p/FSImageViewer_image_resize.svg?style=flat)](http://cocoadocs.org/docsets/FSImageViewer_image_details)
+[![Version](https://img.shields.io/cocoapods/v/FSImageViewer_GridView.svg?style=flat)](http://cocoadocs.org/docsets/FSImageViewer_image_details)
+[![License](https://img.shields.io/cocoapods/l/FSImageViewer_GridView.svg?style=flat)](http://cocoadocs.org/docsets/FSImageViewer_image_details)
+[![Platform](https://img.shields.io/cocoapods/p/FSImageViewer_GridView.svg?style=flat)](http://cocoadocs.org/docsets/FSImageViewer_image_details)
 
 ## Usage
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-## Requirements
-
 ## Installation
 
-FSImageViewer_image_resize is available through [CocoaPods](http://cocoapods.org). To install
+FSImageViewer_GridView is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
-    pod "FSImageViewer_image_details"
+    pod "FSImageViewer_GridView"
 
 ## Author
 
-akhilraj, akhilraj@qburst.com
+freshbrix, freshbrix@gmail.com
 
 ## License
 
-FSImageViewer_image_resize is available under the MIT license. See the LICENSE file for more info.
+FSImageViewer_GridView is available under the MIT license. See the LICENSE file for more info.
 
