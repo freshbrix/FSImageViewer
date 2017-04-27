@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.name             = "FSImageViewer_GridView"
   s.version          = "4.0"
   s.summary          = "Library added additonal functionality on FSImageViewer_image_details."
-  s.description      = "Added option to display gridview initially."
+  s.description      = "Added option to display gridview initially. Use the showGridView parameter for this purpose"
   s.homepage         = "https://github.com/freshbrix/FSImageViewer"
   s.screenshots     = "https://raw.github.com/x2on/FSImageViewer/master/screen.png"
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
@@ -30,4 +30,5 @@ Pod::Spec.new do |s|
   # s.frameworks = 'UIKit', 'MapKit'
   s.dependency 'AFNetworking', '~> 2.3'
   s.dependency 'EGOCache', '~> 2.0'
+  s.dependency 'SDWebImage', '~> 3.7'
 end
