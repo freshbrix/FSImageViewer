@@ -87,6 +87,9 @@
 
 @property(strong, nonatomic) UICollectionView *gridCollectionView;
 
+/// Display grid view initially
+@property(assign, nonatomic) BOOL showGridView;
+
 /// Current index of the image displayed
 /// @return current index of the image displayed
 - (NSInteger)currentImageIndex;

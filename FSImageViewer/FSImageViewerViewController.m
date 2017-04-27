@@ -334,7 +334,12 @@ static NSString *const kGridCellID = @"FSGridCell";
         [_gridCollectionView registerClass:[FSGridCell class] forCellWithReuseIdentifier:kGridCellID];
         [_gridCollectionView setBackgroundColor:[UIColor whiteColor]];
         [self.view addSubview:_gridCollectionView];
-        [_gridCollectionView setHidden:YES];
+        
+        if (self.showGridView == YES) {
+            [_gridCollectionView setHidden:NO];
+        } else {
+            [_gridCollectionView setHidden:YES];
+        }
     }
 }
 
