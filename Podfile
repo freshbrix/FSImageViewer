@@ -5,7 +5,7 @@ pod 'AFNetworking', '~> 2.3.0'
 pod 'EGOCache', '~> 2.0'
 pod 'SDWebImage', '~> 3.7'
 
-target :FSImageViewerTests, :exclusive => true do
+target :FSImageViewerTests do
 	pod 'OCMock', '~> 2.2.4'
 	pod 'FBSnapshotTestCase', '~> 1.1'
 	pod 'Specta', '~> 0.2.1'
