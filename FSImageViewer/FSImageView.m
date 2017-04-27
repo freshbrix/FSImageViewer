@@ -419,7 +419,7 @@ static NSString *const kGridIconName = @"grid_icon";
     CGFloat viewHeight = CGRectGetHeight(self.bounds);
     CGFloat viewWidth = CGRectGetWidth(self.bounds);
     CGFloat height = kNoteViewHeightMin;
-    if (!IS_IPAD) {//Keep same height for ipad
+    if (!(IS_IPAD)) {//Keep same height for ipad
         if (viewHeight > viewWidth) {
             //Portrait
             height = kNoteViewHeightMax;
@@ -546,7 +546,7 @@ static NSString *const kGridIconName = @"grid_icon";
 
 - (void)killScrollViewZoom {
     
-    if (!self.scrollView.zoomScale > 1.0f) return;
+    if (!(self.scrollView.zoomScale > 1.0f)) return;
     
     if (!self.imageView.image) {
         return;

@@ -43,6 +43,7 @@ static NSString *const kPlaceholderImageName = @"repair_placeholder";
 }
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     if (!_imageView) {
         

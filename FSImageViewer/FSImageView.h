@@ -39,7 +39,7 @@ typedef enum : int {
     FSImageViewModeAllDetails
 } FSImageViewMode;
 
-@interface FSImageView : UIView <UIScrollViewDelegate>
+@interface FSImageView : UIView <UIScrollViewDelegate, CAAnimationDelegate>
 
 @property(strong, nonatomic) id <FSImage> image;
 @property(strong, nonatomic, readonly) UIImageView *imageView;
