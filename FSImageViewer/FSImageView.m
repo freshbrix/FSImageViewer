@@ -295,6 +295,7 @@ static NSString *const kGridIconName = @"grid_icon";
     } else {
         self.noteTextView.editable = NO;
     }
+    self.noteTextView.delegate = self;
     self.noteTextContainerView.frame = CGRectMake(kSpacing, kSpacing, CGRectGetWidth(self.captionContainerView.frame) - 2*kSpacing, noteViewHeight - 2*kSpacing);
     self.noteTextView.frame = CGRectMake(0, 0, CGRectGetWidth(self.captionContainerView.frame), CGRectGetHeight(self.noteTextContainerView.frame));
     self.noteVisibilityView.frame = CGRectMake(0, CGRectGetHeight(self.captionContainerView.frame) - kCommonHeight, CGRectGetWidth(self.captionContainerView.frame), kCommonHeight);
@@ -696,5 +697,19 @@ static NSString *const kGridIconName = @"grid_icon";
     }
 }
 
+#pragma mark - UITextViewDelegate
+
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
+    if ([_textViewDelegate respondsToSelector:@selector(textViewShouldBeginEditing:)]) {
+        return [_textViewDelegate textViewShouldBeginEditing:textView];
+    } else {
+        return NO;
+    }
+}
+
+- (BOOL)textViewShouldEndEditing:(UITextView *)textView {
+    [textView resignFirstResponder];
+    return YES;
+}
 
 @end
