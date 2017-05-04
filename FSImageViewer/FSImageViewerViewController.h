@@ -90,6 +90,8 @@
 /// Display grid view initially
 @property(assign, nonatomic) BOOL showGridView;
 
+@property(strong, nonatomic) id <UITextViewDelegate> textViewDelegate;
+
 /// Current index of the image displayed
 /// @return current index of the image displayed
 - (NSInteger)currentImageIndex;
