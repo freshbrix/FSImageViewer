@@ -129,7 +129,7 @@ static NSString *const kGridIconName = @"grid_icon";
         UITextView *noteText = [[UITextView alloc] initWithFrame:noteView.bounds];
         noteText.font = [UIFont fontWithName:kFontNormal size:kFontSize];
         noteText.textColor = kDefaultTextColor;
-        noteText.editable = NO;
+//        noteText.editable = NO;
         noteText.backgroundColor = [UIColor clearColor];
         [noteTextContainerView addSubview:noteText];
         _noteTextView = noteText;
@@ -290,6 +290,11 @@ static NSString *const kGridIconName = @"grid_icon";
     self.overLayView.frame = CGRectMake(0, CGRectGetHeight(self.imageView.frame) - kCommonHeight, CGRectGetWidth(self.frame), kCommonHeight);
     self.captionContainerView.frame = CGRectMake(0, CGRectGetHeight(self.scrollView.frame), CGRectGetWidth(self.frame), [self noteViewHeight]);
     CGFloat noteViewHeight = ([_image isEditable])? CGRectGetHeight(self.captionContainerView.frame) - kCommonHeight : CGRectGetHeight(self.captionContainerView.frame);
+    if (_image.shouldDelete == YES) {
+        self.noteTextView.editable = YES;
+    } else {
+        self.noteTextView.editable = NO;
+    }
     self.noteTextContainerView.frame = CGRectMake(kSpacing, kSpacing, CGRectGetWidth(self.captionContainerView.frame) - 2*kSpacing, noteViewHeight - 2*kSpacing);
     self.noteTextView.frame = CGRectMake(0, 0, CGRectGetWidth(self.captionContainerView.frame), CGRectGetHeight(self.noteTextContainerView.frame));
     self.noteVisibilityView.frame = CGRectMake(0, CGRectGetHeight(self.captionContainerView.frame) - kCommonHeight, CGRectGetWidth(self.captionContainerView.frame), kCommonHeight);

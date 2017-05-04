@@ -45,6 +45,8 @@
 @property(strong, nonatomic) NSString *imageId;
 /// True if the private/public status can edit
 @property(assign, nonatomic, getter=isEditable) BOOL editable;
+/// True if the private/public status can delete
+@property(assign, nonatomic) BOOL shouldDelete;
 /// Method checks overlay string to decide details present or not
 - (BOOL)isImageHaveDetails;
 
