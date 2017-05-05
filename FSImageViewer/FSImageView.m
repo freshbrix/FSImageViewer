@@ -700,8 +700,8 @@ static NSString *const kGridIconName = @"grid_icon";
 #pragma mark - UITextViewDelegate
 
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
-    if ([_textViewDelegate respondsToSelector:@selector(textViewShouldBeginEditing:)]) {
-        return [_textViewDelegate textViewShouldBeginEditing:textView];
+    if ([_textViewDelegate respondsToSelector:@selector(textViewShouldBeginEditing:withImageId:)]) {
+        return [_textViewDelegate textViewShouldBeginEditing:textView withImageId:self.image.imageId];
     } else {
         return YES;
     }

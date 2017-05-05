@@ -39,6 +39,12 @@ typedef enum : int {
     FSImageViewModeAllDetails
 } FSImageViewMode;
 
+@protocol TextViewDelegate <NSObject>
+
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView withImageId:(NSString *)imageId;
+
+@end
+
 @interface FSImageView : UIView <UIScrollViewDelegate, CAAnimationDelegate, UITextViewDelegate>
 
 @property(strong, nonatomic) id <FSImage> image;
@@ -55,7 +61,7 @@ typedef enum : int {
 @property(strong, nonatomic, readonly) UIView *noteTextContainerView;
 @property(strong, nonatomic, readonly) UIView *noteVisibilityView;
 @property(strong, nonatomic, readonly) UITextView *noteTextView;
-@property(strong, nonatomic) id <UITextViewDelegate> textViewDelegate;
+@property(strong, nonatomic) id <UITextViewDelegate, TextViewDelegate> textViewDelegate;
 @property(strong, nonatomic, readonly) UIButton *checkButton;
 @property(strong, nonatomic, readonly) UIButton *gridButton;
 @property(strong, nonatomic, readonly) UIButton *noteClickButton;
