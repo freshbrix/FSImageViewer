@@ -703,13 +703,14 @@ static NSString *const kGridIconName = @"grid_icon";
     if ([_textViewDelegate respondsToSelector:@selector(textViewShouldBeginEditing:)]) {
         return [_textViewDelegate textViewShouldBeginEditing:textView];
     } else {
-        return NO;
+        return YES;
     }
 }
 
-- (BOOL)textViewShouldEndEditing:(UITextView *)textView {
-    [textView resignFirstResponder];
-    return YES;
+- (void)textViewDidEndEditing:(UITextView *)textView {
+    if ([_textViewDelegate respondsToSelector:@selector(textViewDidEndEditing:)]) {
+        return [_textViewDelegate textViewDidEndEditing:textView];
+    }
 }
 
 @end
