@@ -168,8 +168,8 @@ static NSString *const kGridIconName = @"grid_icon";
         [self addSubview:activityView];
         
         //Adding defaultview
-        UIView *defaultView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 104, 30)];
-        defaultView.backgroundColor = [UIColor clearColor];
+        _defaultView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 104, 30)];
+        _defaultView.backgroundColor = [UIColor clearColor];
         
         UIImageView *defaultArrowImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
         defaultArrowImageView.backgroundColor = [UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:0/255.0 alpha:0.7];
@@ -179,10 +179,11 @@ static NSString *const kGridIconName = @"grid_icon";
         defaultLabel.text = @"Default";
         defaultLabel.font = [UIFont fontWithName:@"Arial-MT" size:14.0];
         defaultLabel.textColor = [UIColor whiteColor];
+        defaultLabel.textAlignment = NSTextAlignmentCenter;
         defaultLabel.backgroundColor = [UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:0/255.0 alpha:0.7];
-        [defaultView addSubview:defaultArrowImageView];
-        [defaultView addSubview:defaultLabel];
-        [self addSubview:defaultView];        
+        [_defaultView addSubview:defaultArrowImageView];
+        [_defaultView addSubview:defaultLabel];
+        [self addSubview:_defaultView];
         
         RotateGesture *gesture = [[RotateGesture alloc] initWithTarget:self action:@selector(rotate:)];
         [self addGestureRecognizer:gesture];
@@ -325,6 +326,7 @@ static NSString *const kGridIconName = @"grid_icon";
     [self.overlayLabel setText:_image.overlayString];
     [self.noteTextView setText:_image.notes];
     self.checkButton.selected = !_image.isPrivate;
+    [self.defaultView setHidden:!_image.isDefaultImage];
     [self updateViewsAccordingToViewMode];
 }
 
