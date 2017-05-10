@@ -179,7 +179,7 @@ static NSString *const kGridIconName = @"grid_icon";
         defaultLabel.text = @"Default";
         defaultLabel.font = [UIFont fontWithName:@"Arial-MT" size:14.0];
         defaultLabel.textColor = [UIColor whiteColor];
-        defaultLabel.backgroundColor = [UIColor clearColor];
+        defaultLabel.backgroundColor = [UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:0/255.0 alpha:0.7];
         [defaultView addSubview:defaultArrowImageView];
         [defaultView addSubview:defaultLabel];
         [self addSubview:defaultView];        
