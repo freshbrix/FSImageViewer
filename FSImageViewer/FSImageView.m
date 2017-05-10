@@ -167,6 +167,23 @@ static NSString *const kGridIconName = @"grid_icon";
         activityView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
         [self addSubview:activityView];
         
+        //Adding defaultview
+        UIView *defaultView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 104, 30)];
+        defaultView.backgroundColor = [UIColor clearColor];
+        
+        UIImageView *defaultArrowImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+        defaultArrowImageView.backgroundColor = [UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:0/255.0 alpha:0.7];
+        defaultArrowImageView.image = [UIImage imageNamed:@"check_default"];
+        
+        UILabel *defaultLabel = [[UILabel alloc] initWithFrame:CGRectMake(32, 0, 72, 30)];
+        defaultLabel.text = @"Default";
+        defaultLabel.font = [UIFont fontWithName:@"Arial-MT" size:14.0];
+        defaultLabel.textColor = [UIColor whiteColor];
+        defaultLabel.backgroundColor = [UIColor clearColor];
+        [defaultView addSubview:defaultArrowImageView];
+        [defaultView addSubview:defaultLabel];
+        [self addSubview:defaultView];        
+        
         RotateGesture *gesture = [[RotateGesture alloc] initWithTarget:self action:@selector(rotate:)];
         [self addGestureRecognizer:gesture];
         

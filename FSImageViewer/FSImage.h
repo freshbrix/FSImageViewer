@@ -47,6 +47,8 @@
 @property(assign, nonatomic, getter=isEditable) BOOL editable;
 /// True if the private/public status can delete
 @property(assign, nonatomic) BOOL shouldDelete;
+/// True if the image is the default image in the gallery
+@property(assign, nonatomic) BOOL isDefaultImage;
 /// Method checks overlay string to decide details present or not
 - (BOOL)isImageHaveDetails;
 

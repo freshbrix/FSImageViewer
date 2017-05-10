@@ -37,6 +37,7 @@
 @synthesize imageId = _imageId;
 @synthesize editable = _editable;
 @synthesize shouldDelete = _shouldDelete;
+@synthesize isDefaultImage = _isDefaultImage;
 
 - (id)initWithImageURL:(NSURL *)aURL name:(NSString *)aName image:(UIImage *)aImage {
     self = [super init];
