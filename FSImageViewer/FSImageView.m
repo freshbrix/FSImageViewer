@@ -167,7 +167,7 @@ static NSString *const kGridIconName = @"grid_icon";
         activityView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
         [self addSubview:activityView];
         
-        //Adding defaultview
+        //Adding default label view
         _defaultView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 104, 30)];
         _defaultView.backgroundColor = [UIColor clearColor];
         
@@ -185,6 +185,24 @@ static NSString *const kGridIconName = @"grid_icon";
         [_defaultView addSubview:defaultArrowImageView];
         [_defaultView addSubview:defaultLabel];
         [self addSubview:_defaultView];
+        /****/
+        
+        //Adding set as default view
+        _setAsDefaultView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(imageView.frame), kCommonHeight)];
+        _setAsDefaultView.backgroundColor = [UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:0/255.0 alpha:0.7];
+        
+        UILabel *setAsDefaultLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 4, CGRectGetWidth(imageView.frame), 16)];
+        setAsDefaultLabel.textAlignment = NSTextAlignmentCenter;
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"Tap here to make this image default"];
+        [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:64.0/255.0 green:155.0/255.0 blue:224.0/255.0 alpha:1.0] range:NSMakeRange(0, 8)];
+        [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(8, attributedString.length - 8)];
+        [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Arial-ItalicMT" size:14.0] range:NSMakeRange(0, attributedString.length)];
+        setAsDefaultLabel.attributedText = attributedString;
+        
+        UIButton *setAsDefaultButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(imageView.frame), kCommonHeight)];
+        [_setAsDefaultView addSubview:setAsDefaultLabel];
+        [_setAsDefaultView addSubview:setAsDefaultButton];
+        [self addSubview:_setAsDefaultView];
         
         RotateGesture *gesture = [[RotateGesture alloc] initWithTarget:self action:@selector(rotate:)];
         [self addGestureRecognizer:gesture];
