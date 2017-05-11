@@ -391,18 +391,18 @@ static NSString *const kGridIconName = @"grid_icon";
                 [self.overLayView setHidden:YES];
                 break;
             case FSImageViewModeImageAndTimeStamp:
-                [self updateDefaultViews];
+                [self updateDefaultViews:NO];
                 [self.captionContainerView setHidden:YES];
                 [self.overLayView setHidden:NO];
                 break;
             case FSImageViewModeTimeStampAndCaption:
-                [self updateDefaultViews];
+                [self updateDefaultViews:NO];
                 [self.captionContainerView setHidden:NO];
                 [self.overLayView setHidden:NO];
                 [self.noteVisibilityView setHidden:YES];
                 break;
             case FSImageViewModeAllDetails:
-                [self updateDefaultViews];
+                [self updateDefaultViews:NO];
                 [self.captionContainerView setHidden:NO];
                 [self.overLayView setHidden:NO];
                 break;
