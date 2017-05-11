@@ -357,7 +357,15 @@ static NSString *const kGridIconName = @"grid_icon";
     [self.noteTextView setText:_image.notes];
     self.checkButton.selected = !_image.isPrivate;
     [self.defaultView setHidden:!_image.isDefaultImage];
-    [self.setAsDefaultView setHidden:(!_image.isDefaultImage && self.enableSetAsDefault)];    
+    if (!_image.isDefaultImage) {
+        if (self.enableSetAsDefault) {
+            [self.setAsDefaultView setHidden:NO];
+        } else {
+            [self.setAsDefaultView setHidden:YES];
+        }
+    } else {
+        [self.setAsDefaultView setHidden:YES];
+    }
     [self updateViewsAccordingToViewMode];
 }
 
