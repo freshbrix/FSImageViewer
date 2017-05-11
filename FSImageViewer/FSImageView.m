@@ -173,7 +173,8 @@ static NSString *const kGridIconName = @"grid_icon";
         
         UIImageView *defaultArrowImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
         defaultArrowImageView.backgroundColor = [UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:0/255.0 alpha:0.7];
-        defaultArrowImageView.image = [UIImage imageNamed:@"check_default"];
+        defaultArrowImageView.image = [self imageNamed:@"check_default"];
+        defaultArrowImageView.contentMode = UIViewContentModeCenter;
         
         UILabel *defaultLabel = [[UILabel alloc] initWithFrame:CGRectMake(32, 0, 72, 30)];
         defaultLabel.text = @"Default";
@@ -206,6 +207,17 @@ static NSString *const kGridIconName = @"grid_icon";
         [self layoutScrollViewAnimated:YES];
     }
     
+}
+
+- (UIImage *)imageNamed:(NSString *)imageName {
+    NSString *resourceBundlePath = [[NSBundle bundleForClass:[FSImageView class]] pathForResource:@"FRResources" ofType:@"bundle"];
+    NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundlePath];
+    NSString *imageFilePath = [resourceBundle pathForResource:imageName ofType:@"png"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:imageFilePath]) {
+        return [UIImage imageWithContentsOfFile:imageFilePath];
+    } else {
+        return nil;
+    }
 }
 
 - (void)setImage:(id <FSImage>)aImage {
