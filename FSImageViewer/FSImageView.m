@@ -356,6 +356,10 @@ static NSString *const kGridIconName = @"grid_icon";
     [self.overlayLabel setText:_image.overlayString];
     [self.noteTextView setText:_image.notes];
     self.checkButton.selected = !_image.isPrivate;
+    [self updateViewsAccordingToViewMode];
+}
+
+- (void)updateDefaultViews {
     [self.defaultView setHidden:!_image.isDefaultImage];
     if (!_image.isDefaultImage) {
         if (self.enableSetAsDefault) {
@@ -366,7 +370,6 @@ static NSString *const kGridIconName = @"grid_icon";
     } else {
         [self.setAsDefaultView setHidden:YES];
     }
-    [self updateViewsAccordingToViewMode];
 }
 
 - (void)updateViewsAccordingToViewMode {
@@ -377,19 +380,24 @@ static NSString *const kGridIconName = @"grid_icon";
     if (!self.isHiddenDetails) {
         switch (self.imageViewMode) {
             case FSImageViewModeImageOnly:
+                [self.defaultView setHidden:YES];
+                [self.setAsDefaultView setHidden:YES];
                 [self.captionContainerView setHidden:YES];
                 [self.overLayView setHidden:YES];
                 break;
             case FSImageViewModeImageAndTimeStamp:
+                [self updateDefaultViews];
                 [self.captionContainerView setHidden:YES];
                 [self.overLayView setHidden:NO];
                 break;
             case FSImageViewModeTimeStampAndCaption:
+                [self updateDefaultViews];
                 [self.captionContainerView setHidden:NO];
                 [self.overLayView setHidden:NO];
                 [self.noteVisibilityView setHidden:YES];
                 break;
             case FSImageViewModeAllDetails:
+                [self updateDefaultViews];
                 [self.captionContainerView setHidden:NO];
                 [self.overLayView setHidden:NO];
                 break;
