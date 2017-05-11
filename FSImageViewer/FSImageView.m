@@ -359,16 +359,21 @@ static NSString *const kGridIconName = @"grid_icon";
     [self updateViewsAccordingToViewMode];
 }
 
-- (void)updateDefaultViews {
-    [self.defaultView setHidden:!_image.isDefaultImage];
-    if (!_image.isDefaultImage) {
-        if (self.enableSetAsDefault) {
-            [self.setAsDefaultView setHidden:NO];
+- (void)updateDefaultViews:(BOOL)hidden {
+    if (hidden == YES) {
+        [self.defaultView setHidden:YES];
+        [self.setAsDefaultView setHidden:YES];
+    } else {
+        [self.defaultView setHidden:!_image.isDefaultImage];
+        if (!_image.isDefaultImage) {
+            if (self.enableSetAsDefault) {
+                [self.setAsDefaultView setHidden:NO];
+            } else {
+                [self.setAsDefaultView setHidden:YES];
+            }
         } else {
             [self.setAsDefaultView setHidden:YES];
         }
-    } else {
-        [self.setAsDefaultView setHidden:YES];
     }
 }
 
@@ -427,6 +432,8 @@ static NSString *const kGridIconName = @"grid_icon";
     if (_loading) {
         [self.captionContainerView setHidden:YES];
         [self.overLayView setHidden:YES];
+        [self.defaultView setHidden:YES];
+        [self.setAsDefaultView setHidden:YES];
     }
 }
 
@@ -464,6 +471,7 @@ static NSString *const kGridIconName = @"grid_icon";
     self.isHiddenDetails = hidden;
     [self.captionContainerView setHidden:hidden];
     [self.overLayView setHidden:hidden];
+    [self updateDefaultViews:hidden];
     [self layoutScrollViewAnimated:NO];
 }
 
