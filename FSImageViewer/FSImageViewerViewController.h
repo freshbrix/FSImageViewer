@@ -91,6 +91,7 @@
 @property(assign, nonatomic) BOOL showGridView;
 
 @property(strong, nonatomic) id <UITextViewDelegate, TextViewDelegate> textViewDelegate;
+@property (nonatomic) BOOL disableGalleryUpdate;
 
 /// Current index of the image displayed
 /// @return current index of the image displayed

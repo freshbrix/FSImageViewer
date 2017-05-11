@@ -52,6 +52,7 @@ typedef enum : int {
 @property(strong, nonatomic, readonly) FSImageScrollView *scrollView;
 @property(assign, nonatomic) BOOL loading;
 @property(assign, nonatomic) BOOL isHiddenDetails;
+@property(assign, nonatomic) BOOL enableSetAsDefault;
 @property(strong, nonatomic) GirdSelectedCallBack gridSelectionCallBack;
 //View elements for showing details
 @property(assign, nonatomic) FSImageViewMode imageViewMode;

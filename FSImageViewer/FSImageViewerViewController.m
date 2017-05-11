@@ -559,6 +559,7 @@ static NSString *const kGridCellID = @"FSGridCell";
     }
     
     imageView.textViewDelegate = self.textViewDelegate;
+    imageView.enableSetAsDefault = ([imageView.image URL] && !_disableGalleryUpdate);
     imageView.image = _imageSource[page];
     [imageView setDetailsHidden:barsHidden];
     if (imageView.superview == nil) {
