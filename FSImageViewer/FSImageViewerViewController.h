@@ -92,6 +92,7 @@
 
 @property(strong, nonatomic) id <UITextViewDelegate, TextViewDelegate> textViewDelegate;
 @property (nonatomic) BOOL disableGalleryUpdate;
+@property(strong, nonatomic) SetDefaultImageCallBack setDefaultImageCallBack;
 
 /// Current index of the image displayed
 /// @return current index of the image displayed

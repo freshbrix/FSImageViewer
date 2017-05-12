@@ -553,6 +553,11 @@ static NSString *const kGridCellID = @"FSGridCell";
             
             [weakSelf gallerySelected:fromRect];
         };
+        imageView.setDefaultImageCallBack = ^(NSURL *url) {
+            if (weakSelf.setDefaultImageCallBack) {
+                weakSelf.setDefaultImageCallBack(url);
+            }
+        };        
         UIColor *backgroundColor = barsHidden ? _backgroundColorHidden : _backgroundColorVisible;
         [imageView changeBackgroundColor:backgroundColor];
         [_imageViews replaceObjectAtIndex:(NSUInteger) page withObject:imageView];
