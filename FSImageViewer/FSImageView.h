@@ -30,6 +30,7 @@
 @class FSImageScrollView, FSImageTitleView;
 
 typedef void(^GirdSelectedCallBack)(CGRect fromRect);
+typedef void(^SetDefaultImageCallBack)(NSURL *url);
 
 typedef enum : int {
     
@@ -54,6 +55,7 @@ typedef enum : int {
 @property(assign, nonatomic) BOOL isHiddenDetails;
 @property(assign, nonatomic) BOOL enableSetAsDefault;
 @property(strong, nonatomic) GirdSelectedCallBack gridSelectionCallBack;
+@property(strong, nonatomic) SetDefaultImageCallBack setDefaultImageCallBack;
 //View elements for showing details
 @property(assign, nonatomic) FSImageViewMode imageViewMode;
 @property(strong, nonatomic, readonly) UIView *overLayView;

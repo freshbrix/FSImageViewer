@@ -200,6 +200,7 @@ static NSString *const kGridIconName = @"grid_icon";
         setAsDefaultLabel.attributedText = attributedString;
         
         UIButton *setAsDefaultButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(imageView.frame), kCommonHeight)];
+        [setAsDefaultButton addTarget:self action:@selector(tappedOnSetAsDefaultButton:) forControlEvents:UIControlEventTouchUpInside];
         [_setAsDefaultView addSubview:setAsDefaultLabel];
         [_setAsDefaultView addSubview:setAsDefaultButton];
         [self addSubview:_setAsDefaultView];
@@ -529,6 +530,12 @@ static NSString *const kGridIconName = @"grid_icon";
     if (self.gridSelectionCallBack) {
         
         self.gridSelectionCallBack (frame);
+    }
+}
+
+- (IBAction)tappedOnSetAsDefaultButton:(UIButton *)sender {
+    if (self.setDefaultImageCallBack) {
+        self.setDefaultImageCallBack(self.image.URL);
     }
 }
 
