@@ -84,6 +84,4 @@ typedef enum : int {
 ///Method to show/hide image details, such as note and overlay
 - (void)setDetailsHidden:(BOOL)hidden;
 
-- (void)updateViewsAccordingToViewMode;
-
 @end

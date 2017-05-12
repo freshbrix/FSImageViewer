@@ -83,7 +83,6 @@ static NSString *const kGridCellID = @"FSGridCell";
     
     for (NSUInteger i = 0; i < [[self imageViews] count]; i++) {
         FSImageView *imageView = [[self imageViews] objectAtIndex:i];
-        [imageView updateViewsAccordingToViewMode];
         [[self imageViews] replaceObjectAtIndex:i withObject:[NSNull null]];
         if ([imageView isKindOfClass:[FSImageView class]]) {
             [expiredImageViews addObject:imageView];
