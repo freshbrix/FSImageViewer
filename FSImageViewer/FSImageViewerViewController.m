@@ -83,6 +83,7 @@ static NSString *const kGridCellID = @"FSGridCell";
     
     for (NSUInteger i = 0; i < [[self imageViews] count]; i++) {
         FSImageView *imageView = [[self imageViews] objectAtIndex:i];
+        [imageView updateViewsAccordingToViewMode];
         [[self imageViews] replaceObjectAtIndex:i withObject:[NSNull null]];
         if ([imageView isKindOfClass:[FSImageView class]]) {
             [expiredImageViews addObject:imageView];
@@ -557,7 +558,7 @@ static NSString *const kGridCellID = @"FSGridCell";
             if (weakSelf.setDefaultImageCallBack) {
                 weakSelf.setDefaultImageCallBack(url);
             }
-        };        
+        };
         UIColor *backgroundColor = barsHidden ? _backgroundColorHidden : _backgroundColorVisible;
         [imageView changeBackgroundColor:backgroundColor];
         [_imageViews replaceObjectAtIndex:(NSUInteger) page withObject:imageView];
