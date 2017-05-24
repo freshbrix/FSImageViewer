@@ -392,7 +392,7 @@ static NSString *const kGridCellID = @"FSGridCell";
     if(_showNumberOfItemsInTitle) {
         NSInteger numberOfImages = [_imageSource numberOfImages];
         if ([_gridCollectionView isHidden]) {
-            if (numberOfImages > 1) {
+            if (numberOfImages >= 1) {
                 self.navigationItem.title = [NSString stringWithFormat:@"%i %@ %li", (int)pageIndex + 1, [self localizedStringForKey:@"imageCounter" withDefault:@"of"], (long)numberOfImages];
             } else {
                 self.title = @"";
