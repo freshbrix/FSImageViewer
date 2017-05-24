@@ -393,7 +393,11 @@ static NSString *const kGridCellID = @"FSGridCell";
         NSInteger numberOfImages = [_imageSource numberOfImages];
         if ([_gridCollectionView isHidden]) {
             if (numberOfImages >= 1) {
-                self.navigationItem.title = [NSString stringWithFormat:@"%i %@ %li", (int)pageIndex + 1, [self localizedStringForKey:@"imageCounter" withDefault:@"of"], (long)numberOfImages];
+                if ([_imageSource[pageIndex].URL isEqual:self.defaultImageUrl]) {
+                    self.navigationItem.title = @"";
+                } else {
+                    self.navigationItem.title = [NSString stringWithFormat:@"%i %@ %li", (int)pageIndex + 1, [self localizedStringForKey:@"imageCounter" withDefault:@"of"], (long)numberOfImages];
+                }
             } else {
                 self.title = @"";
             }
