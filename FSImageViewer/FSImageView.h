@@ -70,6 +70,7 @@ typedef enum : int {
 @property(strong, nonatomic, readonly) UIButton *noteClickButton;
 @property(strong, nonatomic) UIView *defaultView;
 @property(strong, nonatomic) UIView *setAsDefaultView;
+@property (strong, nonatomic) NSURL *defaultImageUrl;
 
 - (void)killScrollViewZoom;
 

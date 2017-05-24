@@ -383,6 +383,11 @@ static NSString *const kGridIconName = @"grid_icon";
     if (![self.image isImageHaveDetails]) {
         self.imageViewMode = FSImageViewModeImageAndTimeStamp;
     }
+    
+    if ([self.image.URL isEqual:self.defaultImageUrl]) {
+        self.imageViewMode = FSImageViewModeImageOnly;
+    }
+    
     if (!self.isHiddenDetails) {
         switch (self.imageViewMode) {
             case FSImageViewModeImageOnly:

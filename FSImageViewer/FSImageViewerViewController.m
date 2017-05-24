@@ -563,6 +563,7 @@ static NSString *const kGridCellID = @"FSGridCell";
         [_imageViews replaceObjectAtIndex:(NSUInteger) page withObject:imageView];
     }
     
+    imageView.defaultImageUrl = self.defaultImageUrl;
     imageView.textViewDelegate = self.textViewDelegate;
     imageView.image = _imageSource[page];
     imageView.enableSetAsDefault = ([imageView.image URL] && !_disableGalleryUpdate);
@@ -667,7 +668,16 @@ static NSString *const kGridCellID = @"FSGridCell";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [_imageSource numberOfImages];
+    if ([_imageSource numberOfImages] == 1) {
+        id<FSImage> image = [[_imageSource images] firstObject];
+        if ([image.URL isEqual:self.defaultImageUrl]) {
+            return 0;
+        } else {
+            return [_imageSource numberOfImages];
+        }
+    } else {
+        return [_imageSource numberOfImages];
+    }
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
