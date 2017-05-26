@@ -342,7 +342,7 @@ static NSString *const kGridIconName = @"grid_icon";
     self.overLayView.frame = CGRectMake(0, CGRectGetHeight(self.imageView.frame) - kCommonHeight, CGRectGetWidth(self.frame), kCommonHeight);
     self.captionContainerView.frame = CGRectMake(0, CGRectGetHeight(self.scrollView.frame), CGRectGetWidth(self.frame), [self noteViewHeight]);
     CGFloat noteViewHeight = ([_image isEditable])? CGRectGetHeight(self.captionContainerView.frame) - kCommonHeight : CGRectGetHeight(self.captionContainerView.frame);
-    if (_image.shouldDelete == nil) {
+    if (_image.shouldDelete == NO) {
         if ([_image isEditable] == YES) {
             self.noteTextView.editable = YES;
         } else {
