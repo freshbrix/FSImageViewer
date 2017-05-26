@@ -129,7 +129,7 @@ static NSString *const kGridIconName = @"grid_icon";
         UITextView *noteText = [[UITextView alloc] initWithFrame:noteView.bounds];
         noteText.font = [UIFont fontWithName:kFontNormal size:kFontSize];
         noteText.textColor = kDefaultTextColor;
-//        noteText.editable = NO;
+        //        noteText.editable = NO;
         noteText.backgroundColor = [UIColor clearColor];
         [noteTextContainerView addSubview:noteText];
         _noteTextView = noteText;
@@ -190,6 +190,7 @@ static NSString *const kGridIconName = @"grid_icon";
         //Adding set as default view
         _setAsDefaultView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(imageView.frame), kCommonHeight)];
         _setAsDefaultView.backgroundColor = [UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:0/255.0 alpha:0.7];
+        _setAsDefaultView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleWidth;
         
         UILabel *setAsDefaultLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 4, CGRectGetWidth(imageView.frame), 16)];
         setAsDefaultLabel.textAlignment = NSTextAlignmentCenter;
@@ -198,9 +199,11 @@ static NSString *const kGridIconName = @"grid_icon";
         [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(8, attributedString.length - 8)];
         [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Arial-ItalicMT" size:14.0] range:NSMakeRange(0, attributedString.length)];
         setAsDefaultLabel.attributedText = attributedString;
+        setAsDefaultLabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         
         UIButton *setAsDefaultButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(imageView.frame), kCommonHeight)];
         [setAsDefaultButton addTarget:self action:@selector(tappedOnSetAsDefaultButton:) forControlEvents:UIControlEventTouchUpInside];
+        setAsDefaultButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         [_setAsDefaultView addSubview:setAsDefaultLabel];
         [_setAsDefaultView addSubview:setAsDefaultButton];
         [self addSubview:_setAsDefaultView];
@@ -339,7 +342,13 @@ static NSString *const kGridIconName = @"grid_icon";
     self.overLayView.frame = CGRectMake(0, CGRectGetHeight(self.imageView.frame) - kCommonHeight, CGRectGetWidth(self.frame), kCommonHeight);
     self.captionContainerView.frame = CGRectMake(0, CGRectGetHeight(self.scrollView.frame), CGRectGetWidth(self.frame), [self noteViewHeight]);
     CGFloat noteViewHeight = ([_image isEditable])? CGRectGetHeight(self.captionContainerView.frame) - kCommonHeight : CGRectGetHeight(self.captionContainerView.frame);
-    if (_image.shouldDelete == YES) {
+    if (_image.shouldDelete == nil) {
+        if ([_image isEditable] == YES) {
+            self.noteTextView.editable = YES;
+        } else {
+            self.noteTextView.editable = NO;
+        }
+    } else if (_image.shouldDelete == YES) {
         self.noteTextView.editable = YES;
     } else {
         self.noteTextView.editable = NO;
