@@ -92,7 +92,7 @@ static NSString *const kGridIconName = @"grid_icon";
         
         ///Adding image details elements initialisation
         UIView *overlay = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(imageView.frame) - kCommonHeight, CGRectGetWidth(imageView.frame), kCommonHeight)];
-        overlay.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3];
+        overlay.backgroundColor = [UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:0/255.0 alpha:0.7];
         _overLayView = overlay;
         [self addSubview:overlay];
         
