@@ -334,6 +334,7 @@ static NSString *const kGridCellID = @"FSGridCell";
         [_gridCollectionView registerClass:[FSGridCell class] forCellWithReuseIdentifier:kGridCellID];
         [_gridCollectionView setBackgroundColor:[UIColor whiteColor]];
         [self.view addSubview:_gridCollectionView];
+        _gridCollectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         
         if (self.showGridView == YES) {
             [_gridCollectionView setHidden:NO];
