@@ -37,6 +37,7 @@ typedef enum : int {
     FSImageViewModeImageOnly,
     FSImageViewModeImageAndTimeStamp,
     FSImageViewModeTimeStampAndCaption,
+    FSImageViewModeAllDetailsReadOnly,
     FSImageViewModeAllDetails
 } FSImageViewMode;
 

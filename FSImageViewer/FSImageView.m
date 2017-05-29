@@ -416,6 +416,13 @@ static NSString *const kGridIconName = @"grid_icon";
                 [self.overLayView setHidden:NO];
                 [self.noteVisibilityView setHidden:YES];
                 break;
+            case FSImageViewModeAllDetailsReadOnly:
+                [self updateDefaultViews:YES];
+                _image.editable = NO;
+                _image.shouldDelete = NO;
+                [self.captionContainerView setHidden:NO];
+                [self.overLayView setHidden:NO];
+                break;
             case FSImageViewModeAllDetails:
                 [self updateDefaultViews:NO];
                 [self.captionContainerView setHidden:NO];
