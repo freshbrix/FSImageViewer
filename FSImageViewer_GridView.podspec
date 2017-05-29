@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "FSImageViewer_GridView"
-  s.version          = "4.1.14"
+  s.version          = "4.1.15"
   s.summary          = "Library added additonal functionality on FSImageViewer_image_details."
   s.description      = "Added option to display gridview initially. Use the showGridView parameter for this purpose"
   s.homepage         = "https://github.com/freshbrix/FSImageViewer"
