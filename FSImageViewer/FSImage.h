@@ -23,10 +23,17 @@
 //
 
 /// FSImage represents an abstract image object with URL, title and the image object.
+
+typedef enum : NSUInteger {
+    TypeImage,
+    TypeVideo,} FSMediaType;
+
 @protocol FSImage <NSObject>
 
 /// The remote image URL
 @property(strong, nonatomic, readonly) NSURL *URL;
+/// The media type. Can be Image/Video
+@property(assign, nonatomic) FSMediaType mediaType;
 /// The title of the image - is displayed as overlay.
 @property(strong, nonatomic, readonly) NSString *title;
 /// The image size

@@ -25,6 +25,9 @@
 #import "FSImageViewerViewController.h"
 #import "FSImageTitleView.h"
 #import "FSGridCell.h"
+#import <AVFoundation/AVFoundation.h>
+#import <AVKit/AVKit.h>
+#import <AVKit/AVPlayerViewController.h>
 
 static NSString *const kGridCellID = @"FSGridCell";
 
@@ -728,6 +731,12 @@ static NSString *const kGridCellID = @"FSGridCell";
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
+    id<FSImage> image = [[_imageSource images] firstObject];
+    
+    if (image.mediaType == Type_Video) {
+        [self playMovieWithURL:image.URL];
+    } else {
+    
     [UIView animateWithDuration:0.3 animations:^{
         CGRect bouds = self.view.bounds;
         bouds.origin.y = bouds.size.height;
@@ -739,6 +748,18 @@ static NSString *const kGridCellID = @"FSGridCell";
     }];
     
     [self moveToImageAtIndex:indexPath.row animated:NO];
+    }
+}
+
+- (void)playMovieWithURL:(NSURL *)url {
+    //        MPMoviePlayerViewController *player = [[MPMoviePlayerViewController alloc] initWithContentURL:url];
+    //        [self.superViewController.navigationController presentMoviePlayerViewControllerAnimated:player];
+    AVPlayer *player = [AVPlayer playerWithURL:url];
+    AVPlayerViewController *playerViewController = [AVPlayerViewController new];
+    playerViewController.player = player;
+    [self presentViewController:playerViewController animated:YES completion:^{
+        [playerViewController.player play];
+    }];
 }
 
 @end

@@ -38,6 +38,7 @@
 @synthesize editable = _editable;
 @synthesize shouldDelete = _shouldDelete;
 @synthesize isDefaultImage = _isDefaultImage;
+@synthesize mediaType = _mediaType;
 
 - (id)initWithImageURL:(NSURL *)aURL name:(NSString *)aName image:(UIImage *)aImage {
     self = [super init];
