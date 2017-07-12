@@ -44,7 +44,7 @@
 @end
 
 /// FSImageViewerViewController is an UIViewController which can present images.
-@interface FSImageViewerViewController : UIViewController <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
+@interface FSImageViewerViewController : UIViewController <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, FSImageViewDelegate>
 
 /// @param imageSource image data source
 - (id)initWithImageSource:(id <FSImageSource>)imageSource;

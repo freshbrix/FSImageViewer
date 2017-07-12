@@ -90,6 +90,12 @@ static NSString *const kGridIconName = @"grid_icon";
         [_scrollView addSubview:imageView];
         _imageView = imageView;
         
+        UIImageView *videoIndicatorView = [[UIImageView alloc] initWithFrame:self.bounds];
+        videoIndicatorView.image = [UIImage imageNamed:@"attachment_video_indicator"];
+        videoIndicatorView.contentMode = UIViewContentModeCenter;
+        [_scrollView addSubview:videoIndicatorView];
+        _videoIndicator = videoIndicatorView;
+        
         ///Adding image details elements initialisation
         UIView *overlay = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(imageView.frame) - kCommonHeight, CGRectGetWidth(imageView.frame), kCommonHeight)];
         overlay.backgroundColor = [UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:0/255.0 alpha:0.7];
@@ -261,6 +267,18 @@ static NSString *const kGridIconName = @"grid_icon";
         
     }
     else {
+        if (_image.mediaType == TypeVideo) {
+            NSString *urlString = [_image.URL absoluteString];
+            [_imageView sd_setImageWithURL:[NSURL URLWithString:[urlString stringByAppendingString:@"_thumbnail"]] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                if (!error) {
+                    _image.image = image;
+                    [self setupImageViewWithImage:image];
+                } else {
+                    _image.image = [UIImage imageNamed:@"attachment_vedio_thumpnail"];
+                    [self setupImageViewWithImage:[UIImage imageNamed:@"attachment_vedio_thumpnail"]];
+                }
+            }];
+        } else {
         [_imageView sd_setImageWithURL:_image.URL placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
             if (!error) {
                 _image.image = image;
@@ -270,6 +288,7 @@ static NSString *const kGridIconName = @"grid_icon";
                 [self handleFailedImage];
             }
         }];
+        }
         //        if ([_image.URL isFileURL]) {
         //
         //            NSError *error = nil;
@@ -617,6 +636,7 @@ static NSString *const kGridIconName = @"grid_icon";
     self.scrollView.contentSize = CGSizeMake(self.scrollView.bounds.size.width, self.scrollView.bounds.size.height);
     self.scrollView.contentOffset = CGPointMake(0.0f, 0.0f);
     self.imageView.frame = self.scrollView.bounds;
+    self.videoIndicator.frame = self.scrollView.bounds;
     
     [self updateImageDetails];
     
@@ -793,9 +813,13 @@ static NSString *const kGridIconName = @"grid_icon";
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     [super touchesEnded:touches withEvent:event];
     UITouch *touch = [touches anyObject];
-    [self setDetailsHidden:YES];
     if (touch.tapCount == 1) {
-        [self performSelector:@selector(toggleBars) withObject:nil afterDelay:.2];
+        if (self.image.mediaType == TypeVideo) {
+            [self.imageViewDelegate playMovieWithURL:self.image.URL];
+        } else {
+            [self setDetailsHidden:YES];
+            [self performSelector:@selector(toggleBars) withObject:nil afterDelay:.2];
+        }
     }
 }
 

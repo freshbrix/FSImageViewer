@@ -26,8 +26,8 @@
 #import "FSImageTitleView.h"
 #import "FSGridCell.h"
 #import <AVFoundation/AVFoundation.h>
-#import <AVKit/AVKit.h>
 #import <AVKit/AVPlayerViewController.h>
+#import <AVKit/AVKit.h>
 
 static NSString *const kGridCellID = @"FSGridCell";
 
@@ -555,6 +555,7 @@ static NSString *const kGridCellID = @"FSGridCell";
     
     if (imageView == nil || (NSNull *) imageView == [NSNull null]) {
         imageView = [[FSImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, _scrollView.bounds.size.width, _scrollView.bounds.size.height)];
+        imageView.imageViewDelegate = self;
         imageView.imageViewMode = self.imageViewMode;
         __weak typeof(self)weakSelf = self;
         imageView.gridSelectionCallBack = ^(CGRect fromRect) {
@@ -578,6 +579,11 @@ static NSString *const kGridCellID = @"FSGridCell";
     [imageView setDetailsHidden:barsHidden];
     if (imageView.superview == nil) {
         [_scrollView addSubview:imageView];
+    }
+    if (imageView.image.mediaType == TypeVideo) {
+        imageView.videoIndicator.hidden = NO;
+    } else {
+        imageView.videoIndicator.hidden = YES;
     }
     
     CGRect frame = _scrollView.frame;
@@ -733,10 +739,6 @@ static NSString *const kGridCellID = @"FSGridCell";
     
     id<FSImage> image = [[_imageSource images] firstObject];
     
-    if (image.mediaType == Type_Video) {
-        [self playMovieWithURL:image.URL];
-    } else {
-    
     [UIView animateWithDuration:0.3 animations:^{
         CGRect bouds = self.view.bounds;
         bouds.origin.y = bouds.size.height;
@@ -748,8 +750,9 @@ static NSString *const kGridCellID = @"FSGridCell";
     }];
     
     [self moveToImageAtIndex:indexPath.row animated:NO];
-    }
 }
+
+#pragma mark FSImageViewDelegate
 
 - (void)playMovieWithURL:(NSURL *)url {
     //        MPMoviePlayerViewController *player = [[MPMoviePlayerViewController alloc] initWithContentURL:url];

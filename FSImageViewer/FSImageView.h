@@ -47,10 +47,17 @@ typedef enum : int {
 
 @end
 
+@protocol FSImageViewDelegate <NSObject>
+
+- (void)playMovieWithURL:(NSURL *)url;
+
+@end
+
 @interface FSImageView : UIView <UIScrollViewDelegate, CAAnimationDelegate, UITextViewDelegate>
 
 @property(strong, nonatomic) id <FSImage> image;
 @property(strong, nonatomic, readonly) UIImageView *imageView;
+@property(strong, nonatomic) UIImageView *videoIndicator;
 @property(strong, nonatomic, readonly) FSImageScrollView *scrollView;
 @property(assign, nonatomic) BOOL loading;
 @property(assign, nonatomic) BOOL isHiddenDetails;
@@ -72,6 +79,7 @@ typedef enum : int {
 @property(strong, nonatomic) UIView *defaultView;
 @property(strong, nonatomic) UIView *setAsDefaultView;
 @property (strong, nonatomic) NSURL *defaultImageUrl;
+@property (weak, nonatomic) id<FSImageViewDelegate> imageViewDelegate;
 
 - (void)killScrollViewZoom;
 
