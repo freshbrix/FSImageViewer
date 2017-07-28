@@ -262,33 +262,39 @@ static NSString *const kGridIconName = @"grid_icon";
     
     _image = aImage;
     [self updateImageDetails];
-    if (_image.image) {
-        _imageView.image = _image.image;
-        
-    }
-    else {
-        if (_image.mediaType == TypeVideo) {
-            NSString *urlString = [_image.URL absoluteString];
-            [_imageView sd_setImageWithURL:[NSURL URLWithString:[urlString stringByAppendingString:@"_thumbnail"]] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                if (!error) {
-                    _image.image = image;
-                    [self setupImageViewWithImage:image];
+    
+//    else {
+    if (_image.mediaType == TypeVideo) {
+        NSString *urlString = [_image.URL absoluteString];
+        [_imageView sd_setImageWithURL:[NSURL URLWithString:[urlString stringByAppendingString:@"_thumbnail"]] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            if (!error) {
+                _image.image = image;
+                [self setupImageViewWithImage:image];
+            } else {
+                if (_image.image) {
+                    _imageView.image = _image.image;
+                    [self setupImageViewWithImage:_image.image];
                 } else {
                     _image.image = [UIImage imageNamed:@"attachment_vedio_thumpnail"];
                     [self setupImageViewWithImage:[UIImage imageNamed:@"attachment_vedio_thumpnail"]];
                 }
-            }];
-        } else {
-        [_imageView sd_setImageWithURL:_image.URL placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-            if (!error) {
-                _image.image = image;
-                [self setupImageViewWithImage:image];
-            }
-            else {
-                [self handleFailedImage];
             }
         }];
+    } else {
+        if (_image.image) {
+            _imageView.image = _image.image;
+        }else {
+            [_imageView sd_setImageWithURL:_image.URL placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                if (!error) {
+                    _image.image = image;
+                    [self setupImageViewWithImage:image];
+                }
+                else {
+                    [self handleFailedImage];
+                }
+            }];
         }
+    }
         //        if ([_image.URL isFileURL]) {
         //
         //            NSError *error = nil;
@@ -334,7 +340,7 @@ static NSString *const kGridIconName = @"grid_icon";
         //            }];
         //        }
         
-    }
+//    }
     
     if (_imageView.image) {
         

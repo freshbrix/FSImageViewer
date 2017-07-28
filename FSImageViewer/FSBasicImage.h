@@ -41,4 +41,6 @@
 /// @param name title of the image
 - (id)initWithImage:(UIImage *)image name:(NSString *)name;
 
+- (id)initWithImageURL:(NSURL *)aURL name:(NSString *)aName image:(UIImage *)aImage;
+
 @end
