@@ -92,7 +92,7 @@ static NSString *const kGridIconName = @"grid_icon";
         _imageView = imageView;
         
         UIImageView *videoIndicatorView = [[UIImageView alloc] initWithFrame:self.bounds];
-        videoIndicatorView.image = [UIImage imageNamed:@"attachment_video_indicator"];
+        videoIndicatorView.image = [UIImage imageNamed:@"Video_Preview_Icon"];
         videoIndicatorView.contentMode = UIViewContentModeCenter;
         [_scrollView addSubview:videoIndicatorView];
         _videoIndicator = videoIndicatorView;
