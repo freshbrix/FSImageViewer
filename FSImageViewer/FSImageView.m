@@ -66,6 +66,7 @@ static NSString *const kGridIconName = @"grid_icon";
 @implementation FSImageView {
     UIActivityIndicatorView *activityView;
     CGFloat beginRadians;
+    UILabel *descLabel;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -154,7 +155,7 @@ static NSString *const kGridIconName = @"grid_icon";
         [noteVissibilityView addSubview:checkButton];
         _checkButton = checkButton;
         
-        UILabel *descLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetWidth(checkButton.frame) + 2*kPaddingMin, 0, CGRectGetWidth(noteVissibilityView.frame) - kCommonHeight, kCommonHeight)];
+        descLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetWidth(checkButton.frame) + 2*kPaddingMin, 0, CGRectGetWidth(noteVissibilityView.frame) - kCommonHeight, kCommonHeight)];
         descLabel.textColor = [UIColor whiteColor];
         descLabel.text = @"Make the image visible to others";
         descLabel.font = [UIFont fontWithName:kFontBold size:kFontSize];
@@ -265,6 +266,7 @@ static NSString *const kGridIconName = @"grid_icon";
     
 //    else {
     if (_image.mediaType == TypeVideo) {
+        descLabel.text = @"Make the Video visible to others";
         NSString *urlString = [_image.URL absoluteString];
         [_imageView sd_setImageWithURL:[NSURL URLWithString:[urlString stringByAppendingString:@"_thumbnail"]] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
             if (!error) {
