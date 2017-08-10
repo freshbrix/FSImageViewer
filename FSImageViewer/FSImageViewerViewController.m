@@ -737,7 +737,7 @@ static NSString *const kGridCellID = @"FSGridCell";
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    id<FSImage> image = [[_imageSource images] firstObject];
+//    id<FSImage> image = [[_imageSource images] firstObject];
     
     [UIView animateWithDuration:0.3 animations:^{
         CGRect bouds = self.view.bounds;
