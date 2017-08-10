@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0B3806111B708D860036F340 /* FSGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3806101B708D860036F340 /* FSGridCell.m */; };
 		22A3865A1959723E0080A3AA /* UIImage+ResizeToAspectRatio.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A386591959723E0080A3AA /* UIImage+ResizeToAspectRatio.m */; };
+		2F8141611F3CDDE80023D1CD /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F8141601F3CDDE80023D1CD /* AVFoundation.framework */; };
+		2F8141651F3CDEC60023D1CD /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F8141641F3CDEC60023D1CD /* AVKit.framework */; };
 		69855A85F6C241808F6F609F /* libPods-FSImageViewerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E4F4DB52EA04D489651AD23 /* libPods-FSImageViewerTests.a */; };
 		DD924349C148632DB83C1449 /* libPods-FSImageViewerDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AF62A18FC13162FF6896B08D /* libPods-FSImageViewerDemo.a */; };
 		E21D86837A8906D0CBDC6038 /* libPods-FSImageViewer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B66069153AB3460719CEADC4 /* libPods-FSImageViewer.a */; };
@@ -81,6 +83,8 @@
 		0B3806101B708D860036F340 /* FSGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSGridCell.m; sourceTree = "<group>"; };
 		22A386581959723E0080A3AA /* UIImage+ResizeToAspectRatio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ResizeToAspectRatio.h"; sourceTree = "<group>"; };
 		22A386591959723E0080A3AA /* UIImage+ResizeToAspectRatio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ResizeToAspectRatio.m"; sourceTree = "<group>"; };
+		2F8141601F3CDDE80023D1CD /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		2F8141641F3CDEC60023D1CD /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		3E32CE554118257D546034D7 /* Pods-FSImageViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSImageViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FSImageViewer/Pods-FSImageViewer.debug.xcconfig"; sourceTree = "<group>"; };
 		3E4F4DB52EA04D489651AD23 /* libPods-FSImageViewerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FSImageViewerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		589F82D818EDE791007F654A /* FSTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSTitleView.h; sourceTree = "<group>"; };
@@ -161,6 +165,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F8141651F3CDEC60023D1CD /* AVKit.framework in Frameworks */,
+				2F8141611F3CDDE80023D1CD /* AVFoundation.framework in Frameworks */,
 				FDD96CE417CB9B7400B66931 /* libFSImageViewer.a in Frameworks */,
 				FDD96CEB17CB9B9000B66931 /* CFNetwork.framework in Frameworks */,
 				FDD96CEC17CB9B9100B66931 /* Security.framework in Frameworks */,
@@ -225,6 +231,8 @@
 		FD89E29217CB99D900A41D91 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2F8141641F3CDEC60023D1CD /* AVKit.framework */,
+				2F8141601F3CDDE80023D1CD /* AVFoundation.framework */,
 				FDD96CE917CB9B8800B66931 /* CFNetwork.framework */,
 				FDD96CE717CB9B8500B66931 /* Security.framework */,
 				FDD96CE517CB9B8000B66931 /* QuartzCore.framework */,
